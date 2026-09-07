@@ -1,0 +1,784 @@
+/* ============================================================================
+   PIMAD — Estilos de la presentación
+   ----------------------------------------------------------------------------
+   Dirección de diseño: estética de "esquema técnico" (blueprint de sistemas
+   distribuidos). Trazos finos, nodos y conectores en vez de tarjetas con
+   sombra genérica. Los nombres de protocolos y servicios (MQTT, gRPC,
+   MqttService, etc.) usan una tipografía monoespaciada porque son
+   identificadores técnicos reales, no una decoración.
+
+   El archivo está organizado en secciones:
+     1. Variables de tema (modo claro / modo oscuro)
+     2. Reset y base tipográfica
+     3. Ajustes generales de Reveal.js
+     4. Botón de cambio de tema
+     5. Pie de página persistente
+     6. Componentes de contenido (títulos, listas, chips, tarjetas)
+     7. Diagramas de arquitectura (capas, núcleo radial, zonas)
+     8. Slide de portada y de cierre
+     9. Responsive / accesibilidad
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. VARIABLES DE TEMA
+   Definimos toda la paleta como variables CSS para poder cambiar de modo
+   claro a oscuro con un solo atributo (data-theme) en <html>, sin duplicar
+   reglas. Los colores están inspirados en la identidad de la UNSL: azul
+   profundo institucional + celeste.
+   -------------------------------------------------------------------------- */
+:root {
+  /* --- Modo claro (por defecto) --- */
+  --color-canvas: #f6faff;         /* fondo general de la diapositiva */
+  --color-surface: #ffffff;        /* superficie de paneles/nodos */
+  --color-surface-raised: #ffffff; /* superficie ligeramente elevada */
+  --color-ink: #0b1420;            /* texto principal */
+  --color-ink-muted: #45566b;      /* texto secundario */
+  --color-primary: #0b3d91;        /* azul UNSL profundo — titulares, acentos */
+  --color-accent: #0aa1e0;         /* celeste UNSL — detalles, líneas activas */
+  --color-accent-soft: #e4f4fc;    /* celeste muy suave — fondos de chip */
+  --color-line: #d7e4f0;           /* líneas finas / bordes de esquema */
+  --color-line-strong: #a9c3db;    /* líneas de conexión más marcadas */
+  --color-danger: #c0392b;         /* uso puntual (alertas del sistema) */
+
+  /* Tipografías */
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+
+  /* Superficie de fondo con leve textura de grilla (evoca placa/sensor grid) */
+  --bg-dot-color: rgba(11, 61, 145, 0.08);
+
+  --shadow-toggle: 0 1px 3px rgba(11, 20, 32, 0.18);
+}
+
+/* --- Modo oscuro --- */
+[data-theme="dark"] {
+  --color-canvas: #0a0e15;
+  --color-surface: #10161f;
+  --color-surface-raised: #141b26;
+  --color-ink: #eaf2fa;
+  --color-ink-muted: #93a7bd;
+  --color-primary: #4fc3f7;        /* en oscuro, el celeste pasa a ser el acento principal */
+  --color-accent: #0b3d91;
+  --color-accent-soft: rgba(79, 195, 247, 0.12);
+  --color-line: #1c2733;
+  --color-line-strong: #2c3c4e;
+  --color-danger: #ff6b5b;
+
+  --bg-dot-color: rgba(79, 195, 247, 0.10);
+
+  --shadow-toggle: 0 1px 6px rgba(0, 0, 0, 0.45);
+}
+
+/* Transición suave entre modos: sólo color/fondo, nunca layout */
+html {
+  transition: background-color 0.35s ease;
+}
+* {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+
+/* --------------------------------------------------------------------------
+   2. RESET Y BASE TIPOGRÁFICA
+   -------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+}
+
+body {
+  font-family: var(--font-body);
+}
+
+/* Fondo con una grilla de puntos muy sutil: referencia visual a una red de
+   sensores / placa de circuito, sin competir con el contenido. */
+.reveal {
+  background-image: radial-gradient(var(--bg-dot-color) 1px, transparent 1px);
+  background-size: 26px 26px;
+}
+
+.reveal .slides section {
+  text-align: left;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-ink);
+  text-transform: none;      /* evitamos el "todo mayúsculas" genérico */
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6em 0;
+  line-height: 1.15;
+}
+
+.reveal h2 {
+  font-size: 1.9em;
+  border-bottom: 2px solid var(--color-line);
+  padding-bottom: 0.35em;
+  margin-bottom: 0.9em;
+}
+
+.reveal p {
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+.reveal ul,
+.reveal ol {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.reveal a {
+  color: var(--color-primary);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.reveal a:hover {
+  color: var(--color-accent);
+}
+
+
+/* --------------------------------------------------------------------------
+   3. AJUSTES GENERALES DE REVEAL.JS
+   -------------------------------------------------------------------------- */
+
+/* Tamaño de fuente base más grande de lo habitual en la web: esta
+   presentación se proyecta en un aula/auditorio y debe leerse desde el
+   fondo de la sala. */
+.reveal {
+  font-size: 30px;
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides section {
+  padding: 40px 64px;
+  height: 100%;
+}
+
+/* Flechas de navegación y barra de progreso en los colores del tema */
+.reveal .controls {
+  color: var(--color-primary);
+}
+
+.reveal .progress {
+  color: var(--color-accent);
+  height: 4px;
+}
+.reveal .progress span {
+  background: var(--color-accent);
+}
+
+.reveal .slide-number {
+  font-family: var(--font-mono);
+  font-size: 0.42em;
+  color: var(--color-ink-muted);
+  background: transparent;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. BOTÓN DE CAMBIO DE TEMA
+   Ubicado en el extremo superior izquierdo, deliberadamente pequeño y sin
+   texto. El ícono es un pictograma propio (tres nodos conectados, en
+   referencia directa a la red distribuida de PIMAD) en vez de un sol/luna
+   genérico. El color del ícono se resuelve solo mediante "currentColor" y
+   las variables de tema: al cambiar data-theme, el ícono cambia de color
+   sin necesidad de intercambiar SVGs.
+   -------------------------------------------------------------------------- */
+.theme-toggle {
+  position: fixed;
+  top: 22px;
+  left: 22px;
+  z-index: 40;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-toggle);
+  transition: transform 0.25s ease, background-color 0.25s ease,
+    border-color 0.25s ease, color 0.25s ease;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.theme-toggle:active {
+  transform: scale(0.9) rotate(-8deg);
+}
+
+.theme-toggle svg {
+  width: 19px;
+  height: 19px;
+  display: block;
+}
+
+/* Foco visible por accesibilidad de teclado */
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. PIE DE PÁGINA PERSISTENTE
+   Reemplaza el pie fijo "F. Sarubbi et al. (UNSL) — PIMAD — CACIC 2026" de
+   la versión LaTeX. Se ve en todas las diapositivas, discreto, en la
+   esquina inferior derecha.
+   -------------------------------------------------------------------------- */
+.deck-footer {
+  position: fixed;
+  bottom: 16px;
+  right: 26px;
+  z-index: 40;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+.deck-footer strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+
+/* --------------------------------------------------------------------------
+   6. COMPONENTES DE CONTENIDO
+   -------------------------------------------------------------------------- */
+
+/* Etiqueta pequeña de sección (usar solo cuando aporta información real,
+   por ejemplo el número de capa o el nombre de un protocolo — nunca como
+   decoración vacía). */
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.5em;
+  padding: 0.25em 0.7em;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 999px;
+  color: var(--color-primary);
+  background: var(--color-accent-soft);
+}
+
+/* Lista de viñetas con marcador propio (una barra corta en vez del punto
+   redondo por defecto), para que se sienta parte del esquema técnico */
+.brief-list {
+  list-style: none;
+  margin-top: 0.6em;
+}
+.brief-list li {
+  position: relative;
+  padding: 0.55em 0 0.55em 1.3em;
+  font-size: 1em;
+  line-height: 1.5;
+  border-bottom: 1px solid var(--color-line);
+}
+.brief-list li:last-child {
+  border-bottom: none;
+}
+.brief-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.05em;
+  width: 10px;
+  height: 2px;
+  background: var(--color-accent);
+}
+.brief-list li strong {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Caja de "objetivo" — un único bloque destacado */
+.objective-box {
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-accent-soft);
+  padding: 0.9em 1.1em;
+  margin-bottom: 1em;
+  font-size: 1.05em;
+  border-radius: 0 6px 6px 0;
+}
+.objective-box .tag {
+  display: block;
+  width: fit-content;
+  margin-bottom: 0.5em;
+}
+
+/* Grilla de tarjetas técnicas (decisiones tecnológicas, funcionalidades) */
+.card-grid {
+  display: grid;
+  gap: 18px;
+  margin-top: 0.8em;
+}
+.card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+.tech-card {
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  background: var(--color-surface);
+  padding: 1em 1.1em;
+  position: relative;
+}
+.tech-card::before {
+  /* filete superior de color: marca de "nodo técnico" sin usar sombra */
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--color-accent);
+  border-radius: 6px 6px 0 0;
+}
+.tech-card .tech-icon {
+  width: 30px;
+  height: 30px;
+  color: var(--color-primary);
+  margin-bottom: 0.5em;
+}
+.tech-card h3 {
+  font-size: 0.78em;
+  margin-bottom: 0.3em;
+}
+.tech-card p {
+  font-size: 0.62em;
+  color: var(--color-ink-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Chips de protocolo (mecanismos de resiliencia): el acrónimo va en
+   monoespaciada porque es un identificador real (PCBPF, PV, PSCH, PRABS) */
+.protocol-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 0.7em;
+}
+.protocol-card {
+  border: 1px dashed var(--color-line-strong);
+  border-radius: 4px;
+  padding: 0.85em 1em;
+  background: var(--color-surface);
+}
+.protocol-card .protocol-code {
+  font-family: var(--font-mono);
+  font-size: 0.65em;
+  font-weight: 600;
+  color: var(--color-primary);
+  display: block;
+  margin-bottom: 0.3em;
+}
+.protocol-card p {
+  font-size: 0.58em;
+  color: var(--color-ink-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. DIAGRAMAS DE ARQUITECTURA
+   Tres patrones reutilizables, con estética de esquema (líneas finas,
+   ángulos rectos, nodos rotulados) en vez de tarjetas con sombra:
+     - .layer-diagram   → arquitectura jerárquica en capas (slide 5)
+     - .radial-diagram  → núcleo + servicios alrededor (slides 6 y 7)
+     - .zone-diagram    → zonas de red del servidor (slide 8)
+   -------------------------------------------------------------------------- */
+
+/* --- 7.1 Diagrama por capas --- */
+.layer-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 0.4em;
+}
+
+.layer-row {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  padding: 0.7em 1em;
+  background: var(--color-surface);
+}
+
+.layer-label {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.55em;
+  font-weight: 600;
+  color: var(--color-primary);
+  padding-right: 16px;
+  border-right: 1px solid var(--color-line);
+  white-space: nowrap;
+}
+
+.layer-nodes {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.node-chip {
+  border: 1px solid var(--color-line-strong);
+  border-radius: 4px;
+  background: var(--color-accent-soft);
+  padding: 0.35em 0.7em;
+  font-size: 0.55em;
+  font-family: var(--font-mono);
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+.node-chip.is-emphasis {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* Conector vertical entre capas: una línea con una flecha simple */
+.layer-connector {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 2.2em;
+  height: 22px;
+}
+.layer-connector::before {
+  content: "";
+  width: 1px;
+  height: 100%;
+  background: var(--color-line-strong);
+  margin-left: 5px;
+}
+
+/* --- 7.2 Diagrama radial (núcleo + servicios) --- */
+.radial-diagram {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, auto);
+  gap: 12px;
+  margin-top: 0.5em;
+  position: relative;
+}
+
+.radial-core {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.68em;
+  min-height: 64px;
+  box-shadow: 0 0 0 6px var(--color-accent-soft);
+}
+
+.radial-node {
+  border: 1px solid var(--color-line-strong);
+  border-radius: 4px;
+  background: var(--color-surface);
+  padding: 0.5em 0.6em;
+  font-family: var(--font-mono);
+  font-size: 0.48em;
+  color: var(--color-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 44px;
+}
+
+/* --- 7.3 Diagrama de zonas de red --- */
+.zone-diagram {
+  margin-top: 0.6em;
+}
+
+.zone-internet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.55em;
+  color: var(--color-ink-muted);
+  margin-bottom: 0.3em;
+}
+.zone-internet .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.zone-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.zone-panel {
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  padding: 0.8em 1em 1em;
+  background: var(--color-surface);
+}
+.zone-panel.is-public {
+  border-top: 3px solid var(--color-accent);
+}
+.zone-panel.is-internal {
+  border-top: 3px solid var(--color-primary);
+}
+.zone-panel h4 {
+  font-family: var(--font-mono);
+  font-size: 0.5em;
+  color: var(--color-ink-muted);
+  margin: 0 0 0.6em 0;
+  font-weight: 600;
+}
+.zone-panel .node-chip {
+  display: block;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. SLIDE DE PORTADA Y DE CIERRE
+   -------------------------------------------------------------------------- */
+.cover-slide {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.5em;
+  color: var(--color-ink-muted);
+  margin-bottom: 0.8em;
+}
+
+.cover-title {
+  font-size: 2.6em;
+  color: var(--color-primary);
+  margin-bottom: 0.15em;
+}
+
+.cover-subtitle {
+  font-size: 0.95em;
+  color: var(--color-ink-muted);
+  max-width: 620px;
+  margin-bottom: 1.6em;
+  line-height: 1.5;
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.4em;
+  font-size: 0.55em;
+  color: var(--color-ink-muted);
+}
+.cover-meta .meta-block strong {
+  display: block;
+  color: var(--color-ink);
+  font-size: 1.15em;
+  margin-bottom: 0.2em;
+}
+
+/* Red de nodos animada, muy sutil, sólo en la portada (el único momento de
+   animación no disparada por el usuario que se permite en toda la
+   presentación, tal como indica el criterio de restricción del motion). */
+.node-network {
+  position: absolute;
+  top: 0;
+  right: -60px;
+  width: 46%;
+  height: 100%;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.node-network circle {
+  fill: var(--color-accent);
+}
+.node-network line {
+  stroke: var(--color-line-strong);
+  stroke-width: 1;
+}
+.node-network .pulse {
+  animation: pulse-node 3.6s ease-in-out infinite;
+}
+@keyframes pulse-node {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+/* Slide de cierre / contacto */
+.contact-card {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  padding: 1.2em 1.6em;
+  background: var(--color-surface);
+  margin-top: 1em;
+}
+.contact-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 0.6em;
+}
+.contact-row .contact-label {
+  font-family: var(--font-mono);
+  color: var(--color-ink-muted);
+  width: 90px;
+  flex: none;
+}
+
+/* Placeholder de la sección de validación experimental: pensado para que
+   se reemplace por capturas/gráficos reales de campo. */
+.field-placeholder {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 1em;
+}
+.field-frame {
+  aspect-ratio: 4 / 3;
+  border: 1.5px dashed var(--color-line-strong);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1em;
+  font-family: var(--font-mono);
+  font-size: 0.45em;
+  color: var(--color-ink-muted);
+}
+
+/* Bibliografía */
+.biblio-list {
+  list-style: none;
+  margin-top: 0.6em;
+}
+.biblio-list li {
+  display: grid;
+  grid-template-columns: 2.4em 1fr;
+  gap: 0.6em;
+  padding: 0.7em 0;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.62em;
+  line-height: 1.5;
+}
+.biblio-list li:last-child { border-bottom: none; }
+.biblio-list .biblio-index {
+  font-family: var(--font-mono);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+.biblio-list .biblio-source {
+  color: var(--color-ink-muted);
+  font-style: italic;
+}
+
+
+/* --------------------------------------------------------------------------
+   9. RESPONSIVE / ACCESIBILIDAD
+   Reveal.js ya escala toda la diapositiva como una unidad para adaptarse a
+   la pantalla (proyector, notebook, celular) manteniendo la proporción.
+   Estos ajustes cubren los casos en los que, además de escalar, conviene
+   cambiar la composición (por ejemplo, apilar columnas en pantallas muy
+   angostas en modo retrato).
+   -------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .card-grid.cols-2,
+  .card-grid.cols-3,
+  .protocol-grid,
+  .zone-row,
+  .field-placeholder {
+    grid-template-columns: 1fr;
+  }
+
+  .radial-diagram {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .radial-core {
+    grid-column: 1 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .cover-meta {
+    gap: 1.2em;
+  }
+
+  .node-network {
+    display: none; /* evitamos recargar la portada en pantallas chicas */
+  }
+
+  .theme-toggle {
+    top: 14px;
+    left: 14px;
+  }
+
+  .deck-footer {
+    display: none; /* en celular, priorizamos el espacio de lectura */
+  }
+}
+
+/* Respeta la preferencia de reducción de movimiento del sistema operativo */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Foco de teclado visible en toda la presentación (accesibilidad) */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}

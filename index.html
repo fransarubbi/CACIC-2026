@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>PIMAD — Plataforma IoT Modular de Adquisición Distribuida</title>
+  <meta name="description" content="PIMAD: plataforma IoT modular, segura y distribuida para el análisis de calidad ambiental interior. UNSL — CACIC 2026." />
+
+  <!--
+    Tipografías (Google Fonts):
+      - Space Grotesk  → titulares (personalidad técnica, geométrica)
+      - IBM Plex Sans  → texto general
+      - IBM Plex Mono  → identificadores técnicos reales (protocolos,
+                          nombres de servicios, siglas) — no decorativo
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Reveal.js: núcleo (estructura) vía CDN. El estilo visual completo lo
+       define nuestro css/style.css, no un tema de Reveal.js. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+
+  <!-- Estilos propios del proyecto -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ======================================================================
+       BOTÓN DE TEMA (claro / oscuro)
+       Fijo en la esquina superior izquierda. Ícono propio: tres nodos
+       conectados, en referencia a la red distribuida de PIMAD.
+       El color se resuelve solo con CSS (currentColor + variables), por eso
+       el JS únicamente necesita alternar el atributo data-theme.
+  ====================================================================== */-->
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar entre modo claro y modo oscuro">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="6" cy="17" r="2.4" stroke="currentColor" stroke-width="1.6" fill="none" />
+      <circle cx="18" cy="17" r="2.4" stroke="currentColor" stroke-width="1.6" fill="none" />
+      <circle cx="12" cy="6" r="2.4" stroke="currentColor" stroke-width="1.6" fill="none" />
+      <line x1="8" y1="16" x2="10.4" y2="8" stroke="currentColor" stroke-width="1.4" />
+      <line x1="16" y1="16" x2="13.6" y2="8" stroke="currentColor" stroke-width="1.4" />
+      <line x1="8.4" y1="17" x2="15.6" y2="17" stroke="currentColor" stroke-width="1.4" />
+    </svg>
+  </button>
+
+  <!-- Pie de página persistente (reemplaza el pie fijo de LaTeX/Beamer) -->
+  <div class="deck-footer"><strong>PIMAD</strong> · CACIC 2026 · UNSL</div>
+
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ================================================================
+           SLIDE 1 — PORTADA
+      ================================================================= -->
+      <section class="cover-slide">
+        <!-- Decoración: red de nodos animada (único momento de animación
+             automática de toda la presentación) -->
+        <svg class="node-network" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <line x1="80" y1="90" x2="220" y2="60" />
+          <line x1="220" y1="60" x2="340" y2="140" />
+          <line x1="80" y1="90" x2="150" y2="220" />
+          <line x1="150" y1="220" x2="340" y2="140" />
+          <line x1="150" y1="220" x2="90" y2="340" />
+          <line x1="150" y1="220" x2="290" y2="300" />
+          <line x1="290" y1="300" x2="340" y2="140" />
+          <line x1="90" y1="340" x2="230" y2="430" />
+          <line x1="290" y1="300" x2="230" y2="430" />
+          <circle class="pulse" cx="80" cy="90" r="6" style="animation-delay:0s" />
+          <circle class="pulse" cx="220" cy="60" r="5" style="animation-delay:0.4s" />
+          <circle class="pulse" cx="340" cy="140" r="7" style="animation-delay:0.8s" />
+          <circle class="pulse" cx="150" cy="220" r="8" style="animation-delay:1.2s" />
+          <circle class="pulse" cx="90" cy="340" r="5" style="animation-delay:1.6s" />
+          <circle class="pulse" cx="290" cy="300" r="6" style="animation-delay:2s" />
+          <circle class="pulse" cx="230" cy="430" r="5" style="animation-delay:2.4s" />
+        </svg>
+
+        <p class="cover-eyebrow">Congreso CACIC · Octubre 2026</p>
+        <h1 class="cover-title">PIMAD</h1>
+        <p class="cover-subtitle">
+          Plataforma IoT Modular de Adquisición Distribuida.<br />
+          Implementación para el análisis de calidad ambiental interior.
+        </p>
+
+        <div class="cover-meta">
+          <div class="meta-block">
+            <strong>Franco Sarubbi · Cristian Tissera</strong>
+            Dpto. de Informática, FCFMyN, UNSL
+          </div>
+          <div class="meta-block">
+            <strong>Roberto Kiessling · Mercedes Barrionuevo</strong>
+            Dpto. de Electrónica / Informática, FCFMyN, UNSL
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 2 — MOTIVACIÓN Y PROBLEMA DE ESTUDIO
+      ================================================================= -->
+      <section>
+        <h2>Motivación y problema de estudio</h2>
+        <ul class="brief-list">
+          <li class="fragment">
+            La <strong>calidad del ambiente interior (IEQ)</strong> impacta directamente en la salud,
+            el confort y el rendimiento cognitivo en entornos educativos y laborales.
+          </li>
+          <li class="fragment">
+            Las soluciones comerciales actuales presentan limitaciones por sus
+            <strong>altos costos</strong>, su <strong>baja interoperabilidad</strong> y arquitecturas
+            monolíticas que dificultan la escalabilidad.
+          </li>
+          <li class="fragment">
+            La mayoría de los sistemas priorizan la recolección de datos
+            <strong>por sobre la resiliencia y la seguridad</strong>.
+          </li>
+        </ul>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 3 — DECISIONES TECNOLÓGICAS BASE
+      ================================================================= -->
+      <section>
+        <h2>Decisiones tecnológicas base</h2>
+        <div class="card-grid cols-2">
+          <div class="tech-card fragment">
+            <svg class="tech-icon" viewBox="0 0 24 24" fill="none"><path d="M4 12h4M16 12h4M12 4v4M12 16v4M7 7l2.5 2.5M14.5 14.5L17 17M17 7l-2.5 2.5M9.5 14.5L7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="8" y="8" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>Edge computing</h3>
+            <p>Necesidad de delegar la coordinación en el borde para evitar cuellos de botella en la nube.</p>
+          </div>
+          <div class="tech-card fragment">
+            <svg class="tech-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 9.5-4-1.3-7-5-7-9.5V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h3>Seguridad mTLS (PKI)</h3>
+            <p>Innegociable para evitar suplantación en redes institucionales y proteger la telemetría.</p>
+          </div>
+          <div class="tech-card fragment">
+            <svg class="tech-icon" viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 7V4M14.5 7V4M9.5 20v-3M14.5 20v-3M7 9.5H4M7 14.5H4M20 9.5h-3M20 14.5h-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <h3>Rust</h3>
+            <p>Elegido para el firmware y servicios críticos por su seguridad de memoria en sistemas concurrentes de alto rendimiento, evitando <em>data races</em> y <em>memory leaks</em> comunes en C/C++.</p>
+          </div>
+          <div class="tech-card fragment">
+            <svg class="tech-icon" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="2" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 12h5M12 12l5-4.5M12 12l5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
+            <h3>Protocolos heterogéneos</h3>
+            <p><span class="tag">MQTT</span> para ligereza en el borde; <span class="tag">gRPC</span> para persistencia y baja latencia hacia el servidor.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 4 — OBJETIVOS Y FUNCIONALIDADES CLAVE
+      ================================================================= -->
+      <section>
+        <h2>Objetivos y funcionalidades clave</h2>
+
+        <div class="objective-box">
+          <span class="tag">Objetivo</span>
+          El objetivo es diseñar e implementar una plataforma IoT modular, segura y distribuida.
+        </div>
+
+        <div class="card-grid cols-3">
+          <div class="tech-card fragment"><h3>Captura y procesamiento</h3><p>Captura de datos y procesamiento en el borde.</p></div>
+          <div class="tech-card fragment"><h3>Visualización</h3><p>Datos históricos y en tiempo real.</p></div>
+          <div class="tech-card fragment"><h3>Monitoreo remoto</h3><p>Monitoreo remoto de dispositivos.</p></div>
+          <div class="tech-card fragment"><h3>Actualizaciones OTA</h3><p>Actualizaciones de software remotas.</p></div>
+          <div class="tech-card fragment"><h3>Administración de red</h3><p>Administración remota de redes.</p></div>
+          <div class="tech-card fragment"><h3>Sistema de alertas</h3><p>Ante caídas de dispositivos o anomalías ambientales.</p></div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 5 — ARQUITECTURA JERÁRQUICA
+      ================================================================= -->
+      <section>
+        <h2>Arquitectura jerárquica</h2>
+
+        <div class="layer-diagram">
+          <div class="layer-row">
+            <div class="layer-label">Capa 1<br />Sensado</div>
+            <div class="layer-nodes">
+              <span class="node-chip">Hub (ESP32)</span>
+              <span class="node-chip">Hub (ESP32)</span>
+              <span class="node-chip">Hub (ESP32)</span>
+              <span class="node-chip">Hub (ESP32)</span>
+              <span class="node-chip is-emphasis">MQTT</span>
+            </div>
+          </div>
+
+          <div class="layer-connector"></div>
+
+          <div class="layer-row">
+            <div class="layer-label">Capa 2<br />Borde</div>
+            <div class="layer-nodes">
+              <span class="node-chip">Edge (Raspberry)</span>
+              <span class="node-chip">Edge (Raspberry)</span>
+              <span class="node-chip">Edge (Raspberry)</span>
+              <span class="node-chip is-emphasis">gRPC</span>
+            </div>
+          </div>
+
+          <div class="layer-connector"></div>
+
+          <div class="layer-row">
+            <div class="layer-label">Capa 3<br />Servidor</div>
+            <div class="layer-nodes">
+              <span class="node-chip">Router Service</span>
+              <span class="node-chip">Manager Service</span>
+              <span class="node-chip">Data Saver Service</span>
+              <span class="node-chip">Frontend</span>
+              <span class="node-chip">Grafana</span>
+              <span class="node-chip">User DB</span>
+              <span class="node-chip">Manager DB</span>
+              <span class="node-chip">Telemetry DB</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 6 — ARQUITECTURA DEL DISPOSITIVO HUB
+      ================================================================= -->
+      <section>
+        <h2>Arquitectura del dispositivo Hub <span class="tag">ESP32</span></h2>
+        <div class="radial-diagram">
+          <div class="radial-node">CLI · WifiService</div>
+          <div class="radial-node">DataService</div>
+          <div class="radial-node">FsmService</div>
+
+          <div class="radial-node">MqttService</div>
+          <div class="radial-core">Core</div>
+          <div class="radial-node">ConfigManager</div>
+
+          <div class="radial-node">MessageService</div>
+          <div class="radial-node">HeartbeatService</div>
+          <div class="radial-node">OtaService · TimerService</div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 7 — ARQUITECTURA DEL DISPOSITIVO EDGE
+      ================================================================= -->
+      <section>
+        <h2>Arquitectura del dispositivo Edge <span class="tag">Raspberry</span></h2>
+        <div class="radial-diagram">
+          <div class="radial-node">GrpcService</div>
+          <div class="radial-node">FirmwareService</div>
+          <div class="radial-node">FsmService</div>
+
+          <div class="radial-node">MqttService</div>
+          <div class="radial-core">Core</div>
+          <div class="radial-node">NetworkService</div>
+
+          <div class="radial-node">MessageService</div>
+          <div class="radial-node">HeartbeatService · MetricsService</div>
+          <div class="radial-node">DataService → DB</div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 8 — INFRAESTRUCTURA DEL SERVIDOR
+      ================================================================= -->
+      <section>
+        <h2>Infraestructura del servidor</h2>
+
+        <div class="zone-diagram">
+          <div class="zone-internet">
+            <span class="dot"></span> Internet — <span class="tag">:443 / :80</span> <span class="tag">:50051 / 8080</span>
+          </div>
+
+          <div class="zone-row">
+            <div class="zone-panel is-public">
+              <h4>DMZ (pública)</h4>
+              <span class="node-chip">Nginx — Proxy reverso</span>
+              <span class="node-chip">Squid — Forward proxy</span>
+              <span class="node-chip is-emphasis">Router Service (Rust · gRPC · mTLS)</span>
+            </div>
+            <div class="zone-panel is-internal">
+              <h4>Backend network (interna)</h4>
+              <span class="node-chip">Frontend — Svelte</span>
+              <span class="node-chip">Grafana — Svelte</span>
+              <span class="node-chip">Manager Service — Java Spring</span>
+              <span class="node-chip">Data Saver Service — Rust</span>
+              <span class="node-chip is-emphasis">PostgreSQL (manager_db · datasaver_db)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 9 — MECANISMOS DE RESILIENCIA EN LA RED
+      ================================================================= -->
+      <section>
+        <h2>Mecanismos de resiliencia en la red</h2>
+        <p style="font-size:0.62em; color:var(--color-ink-muted); margin-bottom:0.8em;">
+          Tanto el Hub como el Edge cuentan con almacenamiento temporal de datos
+          para evitar pérdida de información durante cortes de conectividad.
+        </p>
+        <div class="protocol-grid">
+          <div class="protocol-card fragment">
+            <span class="protocol-code">PCBPF</span>
+            <p>Protocolo de Coordinación y Balanceo Post-Fallo. Controla el envío de mensajes respaldados cuando el Edge inicia su operación y evita ráfagas de tráfico.</p>
+          </div>
+          <div class="protocol-card fragment">
+            <span class="protocol-code">PV</span>
+            <p>Protocolo de Vinculación. Formaliza el descubrimiento y registro persistente entre dispositivos.</p>
+          </div>
+          <div class="protocol-card fragment">
+            <span class="protocol-code">PSCH</span>
+            <p>Protocolo de Sincronización de Configuración. Mantiene la consistencia entre la configuración local y el servidor mediante confirmaciones.</p>
+          </div>
+          <div class="protocol-card fragment">
+            <span class="protocol-code">PRABS</span>
+            <p>Protocolo de Respaldo de Alertas. Permite a los Hubs saltear un nodo Edge caído y enviar alertas críticas directamente al servidor por HTTP.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 10 — VALIDACIÓN EXPERIMENTAL EN CAMPO
+           (Separador de sección — reemplazar los marcos por capturas/
+           gráficos reales de los resultados de campo)
+      ================================================================= -->
+      <section>
+        <h2>Validación experimental en campo</h2>
+        <div class="field-placeholder">
+          <div class="field-frame">Captura / gráfico<br />de despliegue real</div>
+          <div class="field-frame">Serie temporal<br />de sensores</div>
+          <div class="field-frame">Panel de<br />Grafana</div>
+        </div>
+        <p style="font-size:0.55em; color:var(--color-ink-muted); margin-top:1em;">
+          Espacio reservado para las capturas y gráficos interactivos de la validación en campo.
+        </p>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 11 — CONCLUSIONES Y PRÓXIMOS PASOS
+      ================================================================= -->
+      <section>
+        <h2>Conclusiones y próximos pasos</h2>
+        <ul class="brief-list">
+          <li class="fragment">
+            La <strong>arquitectura jerárquica</strong> probó ser exitosa para desacoplar el tipo de
+            sensor de la infraestructura de comunicación y seguridad.
+          </li>
+          <li class="fragment">
+            La plataforma es <strong>altamente reconfigurable</strong> y puede transferirse a otros
+            dominios modificando únicamente la capa externa (Hub).
+          </li>
+          <li class="fragment">
+            El trabajo futuro se centrará en la aplicación de técnicas de
+            <strong>Inteligencia Artificial y Ciencia de Datos</strong>.
+          </li>
+          <li class="fragment">
+            Se planea utilizar el historial de datos recolectados para entrenar modelos de
+            aprendizaje supervisado capaces de <strong>predecir condiciones ambientales</strong> y
+            <strong>detectar anomalías</strong> de manera automática.
+          </li>
+        </ul>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 12 — PREGUNTAS Y DEBATE
+      ================================================================= -->
+      <section class="cover-slide">
+        <p class="cover-eyebrow">Preguntas y debate</p>
+        <h1 class="cover-title" style="font-size:2.1em;">¡Muchas gracias por su atención!</h1>
+
+        <div class="contact-card">
+          <div class="contact-row"><span class="contact-label">Autor</span> Franco Sarubbi</div>
+          <div class="contact-row"><span class="contact-label">Email</span> <a href="mailto:sarubbi.fe@gmail.com">sarubbi.fe@gmail.com</a></div>
+          <div class="contact-row"><span class="contact-label">GitHub</span> <a href="https://github.com/fransarubbi" target="_blank" rel="noopener">@fransarubbi</a></div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 13 — BIBLIOGRAFÍA PRINCIPAL
+      ================================================================= -->
+      <section>
+        <h2>Bibliografía principal</h2>
+        <ol class="biblio-list">
+          <li>
+            <span class="biblio-index">[1]</span>
+            <span>
+              Allen, J.G., et al. (2016). Associations of cognitive function scores with carbon dioxide concentrations and ventilation rates in office environments.
+              <span class="biblio-source">Environmental Health Perspectives, 124(6), 805–812.</span>
+            </span>
+          </li>
+          <li>
+            <span class="biblio-index">[2]</span>
+            <span>
+              Broday, E.E., Gameiro da Silva, M.C. (2023). The role of internet of things (IoT) in the assessment of indoor environmental quality.
+              <span class="biblio-source">Smart and Sustainable Built Environment.</span>
+            </span>
+          </li>
+          <li>
+            <span class="biblio-index">[3]</span>
+            <span>
+              OASIS (2019). MQTT version 5.0.
+              <span class="biblio-source">Standard.</span>
+            </span>
+          </li>
+        </ol>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js (núcleo, sin plugins adicionales) -->
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+
+  <!-- Lógica propia: inicialización de Reveal.js + selector de tema -->
+  <script src="js/main.js"></script>
+</body>
+</html>
