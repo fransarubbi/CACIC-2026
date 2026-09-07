@@ -28,11 +28,11 @@
    profundo institucional + celeste.
    -------------------------------------------------------------------------- */
 :root {
-  /* --- Modo claro (por defecto) --- */
+  /* --- Modo claro (por defecto): fondo casi blanco, texto casi negro --- */
   --color-canvas: #f6faff;         /* fondo general de la diapositiva */
-  --color-surface: #ffffff;        /* superficie de paneles/nodos */
+  --color-surface: #ffffff;        /* superficie de paneles/nodos/tarjetas */
   --color-surface-raised: #ffffff; /* superficie ligeramente elevada */
-  --color-ink: #0b1420;            /* texto principal */
+  --color-ink: #0b1420;            /* texto principal (casi negro) */
   --color-ink-muted: #45566b;      /* texto secundario */
   --color-primary: #0b3d91;        /* azul UNSL profundo — titulares, acentos */
   --color-accent: #0aa1e0;         /* celeste UNSL — detalles, líneas activas */
@@ -40,33 +40,38 @@
   --color-line: #d7e4f0;           /* líneas finas / bordes de esquema */
   --color-line-strong: #a9c3db;    /* líneas de conexión más marcadas */
   --color-danger: #c0392b;         /* uso puntual (alertas del sistema) */
+  --color-graph-edge: rgba(0, 0, 0, 0.9); /* Aristas casi negras en modo claro */
 
   /* Tipografías */
   --font-display: "Space Grotesk", "Segoe UI", sans-serif;
   --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
 
-  /* Superficie de fondo con leve textura de grilla (evoca placa/sensor grid) */
-  --bg-dot-color: rgba(11, 61, 145, 0.08);
+  /* Color de la grilla de puntos de fondo. El 4to valor (0 a 1) es la
+     opacidad: subilo o bajalo para hacer los puntos más o menos notorios.
+     El tamaño del punto y la separación entre puntos se ajustan aparte,
+     en la regla ".reveal" (buscá el comentario "AJUSTAR VISIBILIDAD"). */
+  --bg-dot-color: rgba(10, 70, 160, 0.10);
 
   --shadow-toggle: 0 1px 3px rgba(11, 20, 32, 0.18);
 }
 
-/* --- Modo oscuro --- */
+/* --- Modo oscuro: fondo gris oscuro, puntitos grises más claros, sin azulado --- */
 [data-theme="dark"] {
-  --color-canvas: #0a0e15;
-  --color-surface: #10161f;
-  --color-surface-raised: #141b26;
-  --color-ink: #eaf2fa;
-  --color-ink-muted: #93a7bd;
-  --color-primary: #4fc3f7;        /* en oscuro, el celeste pasa a ser el acento principal */
-  --color-accent: #0b3d91;
-  --color-accent-soft: rgba(79, 195, 247, 0.12);
-  --color-line: #1c2733;
-  --color-line-strong: #2c3c4e;
+  --color-canvas: #141414;
+  --color-surface: #1e1e1e;
+  --color-surface-raised: #282828;
+  --color-ink: #f0f0f0;
+  --color-ink-muted: #a0a0a0;
+  --color-primary: #4a90e2;
+  --color-accent: #0aa1e0;
+  --color-accent-soft: rgba(10, 161, 224, 0.12);
+  --color-line: #333333;
+  --color-line-strong: #444444;
   --color-danger: #ff6b5b;
+  --color-graph-edge: rgba(255, 255, 255, 0.95); /* Aristas casi blancas en modo oscuro */
 
-  --bg-dot-color: rgba(79, 195, 247, 0.10);
+  --bg-dot-color: rgba(255, 255, 255, 0.15);
 
   --shadow-toggle: 0 1px 6px rgba(0, 0, 0, 0.45);
 }
@@ -88,11 +93,13 @@ html {
 }
 
 html,
-body {
+body,
+.reveal-viewport,
+.reveal {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: var(--color-canvas);
+  background-color: var(--color-canvas) !important;
   color: var(--color-ink);
 }
 
@@ -100,11 +107,17 @@ body {
   font-family: var(--font-body);
 }
 
-/* Fondo con una grilla de puntos muy sutil: referencia visual a una red de
-   sensores / placa de circuito, sin competir con el contenido. */
+/* Fondo con una grilla de puntos: referencia visual a una red de sensores /
+   placa de circuito. AJUSTAR VISIBILIDAD acá: el primer número (1.7px) es
+   el radio de cada punto, y "background-size" (24px 24px) es la distancia
+   entre puntos. Punto más grande o puntos más juntos = grilla más notoria.
+   El color/opacidad de los puntos se define en --bg-dot-color (arriba). */
 .reveal {
-  background-image: radial-gradient(var(--bg-dot-color) 1px, transparent 1px);
-  background-size: 26px 26px;
+  background-image: 
+    radial-gradient(ellipse 120% 150% at -20% 50%, var(--color-canvas) 30%, transparent 65%),
+    radial-gradient(var(--bg-dot-color) 1.7px, transparent 1.7px);
+  background-size: 100% 100%, 20px 20px;
+  background-repeat: no-repeat, repeat;
 }
 
 .reveal .slides section {
@@ -187,12 +200,10 @@ body {
   background: var(--color-accent);
 }
 
-.reveal .slide-number {
-  font-family: var(--font-mono);
-  font-size: 0.42em;
-  color: var(--color-ink-muted);
-  background: transparent;
-}
+/* El número de diapositiva nativo de Reveal.js queda desactivado desde
+   js/main.js (slideNumber: false) para no superponerse con las flechas de
+   navegación: en su lugar usamos el contador propio de la sección 10,
+   arriba a la derecha. */
 
 
 /* --------------------------------------------------------------------------
@@ -239,6 +250,20 @@ body {
   display: block;
 }
 
+.theme-toggle .icon-sun {
+  display: none;
+}
+.theme-toggle .icon-moon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+
 /* Foco visible por accesibilidad de teclado */
 .theme-toggle:focus-visible {
   outline: 2px solid var(--color-accent);
@@ -250,12 +275,13 @@ body {
    5. PIE DE PÁGINA PERSISTENTE
    Reemplaza el pie fijo "F. Sarubbi et al. (UNSL) — PIMAD — CACIC 2026" de
    la versión LaTeX. Se ve en todas las diapositivas, discreto, en la
-   esquina inferior derecha.
-   -------------------------------------------------------------------------- */
+   esquina inferior IZQUIERDA (a propósito: la esquina inferior derecha
+   queda libre para las flechas de navegación de Reveal.js, así no se
+   amontonan varios elementos en el mismo lugar). */
 .deck-footer {
   position: fixed;
   bottom: 16px;
-  right: 26px;
+  left: 26px;
   z-index: 40;
   font-family: var(--font-mono);
   font-size: 13px;
@@ -267,6 +293,65 @@ body {
 .deck-footer strong {
   color: var(--color-primary);
   font-weight: 600;
+}
+
+
+/* --------------------------------------------------------------------------
+   5.1 CONTADOR DE DIAPOSITIVAS PERSONALIZADO
+   Reemplaza el número de página nativo de Reveal.js. Va arriba a la
+   derecha y muestra el número anterior y el siguiente más chicos y
+   difuminados (opacidad baja + un leve blur), y el número actual grande
+   y en el color de acento. El contenido lo arma js/main.js según la
+   diapositiva activa (ver la sección "CONTADOR DE DIAPOSITIVAS" de ese
+   archivo); acá sólo se define el aspecto visual y la animación.
+   -------------------------------------------------------------------------- */
+.slide-counter {
+  position: fixed;
+  top: 20px;
+  right: 28px;
+  z-index: 40;
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-family: var(--font-mono);
+  pointer-events: none; /* es solo informativo, no debe capturar clics */
+}
+
+.slide-counter .num {
+  display: inline-block;
+  line-height: 1;
+  transition: opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease;
+}
+
+/* Número activo: tamaño intermedio (ni muy chico ni muy grande) y color
+   de acento fuerte para que se distinga a simple vista desde el fondo
+   del aula. */
+.slide-counter .num.is-current {
+  font-size: 50px;
+  font-weight: 600;
+  color: var(--color-accent);
+  opacity: 1;
+  filter: blur(0);
+  transform: translateY(0);
+}
+
+/* Números adyacentes (anterior / siguiente): más chicos, difuminados y
+   semitransparentes, para que se lean como referencia sin competir con
+   el número activo. */
+.slide-counter .num.is-adjacent {
+  font-size: 35px;
+  color: var(--color-ink-muted);
+  opacity: 0.4;
+  filter: blur(0.6px);
+}
+
+/* Estado inicial (antes de animar) del número activo al cambiar de
+   diapositiva: produce un pequeño efecto de "aparición" tipo odómetro.
+   js/main.js agrega esta clase al crear el número y la retira un
+   instante después para disparar la transición. */
+.slide-counter .num.is-current.is-entering {
+  opacity: 0;
+  transform: translateY(6px);
 }
 
 
@@ -612,6 +697,19 @@ body {
   line-height: 1.5;
 }
 
+.highlight-letter {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.cover-description {
+  display: block;
+  font-size: 0.65em;
+  margin-top: 0.6em;
+  color: var(--color-ink-muted);
+  font-weight: 400;
+}
+
 .cover-meta {
   display: flex;
   flex-wrap: wrap;
@@ -635,21 +733,25 @@ body {
   right: -60px;
   width: 46%;
   height: 100%;
-  opacity: 0.55;
-  pointer-events: none;
+  opacity: 0.65;
+  z-index: 10;
 }
 .node-network circle {
   fill: var(--color-accent);
+  cursor: grab;
+}
+.node-network circle:active {
+  cursor: grabbing;
 }
 .node-network line {
   stroke: var(--color-line-strong);
-  stroke-width: 1;
+  stroke-width: 1.5;
 }
-.node-network .pulse {
+.pulse-node-d3 {
   animation: pulse-node 3.6s ease-in-out infinite;
 }
 @keyframes pulse-node {
-  0%, 100% { opacity: 0.35; }
+  0%, 100% { opacity: 0.45; }
   50% { opacity: 1; }
 }
 
@@ -762,6 +864,14 @@ body {
     top: 14px;
     left: 14px;
   }
+
+  .slide-counter {
+    top: 14px;
+    right: 16px;
+    gap: 10px;
+  }
+  .slide-counter .num.is-current { font-size: 18px; }
+  .slide-counter .num.is-adjacent { font-size: 12px; }
 
   .deck-footer {
     display: none; /* en celular, priorizamos el espacio de lectura */
