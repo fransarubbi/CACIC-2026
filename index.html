@@ -179,85 +179,18 @@
       <section>
         <h2>Arquitectura jerárquica</h2>
 
-        <div class="layer-diagram">
-          <div class="layer-row">
-            <div class="layer-label">Capa 1<br />Sensado</div>
-            <div class="layer-nodes">
-              <span class="node-chip">Hub (ESP32)</span>
-              <span class="node-chip">Hub (ESP32)</span>
-              <span class="node-chip">Hub (ESP32)</span>
-              <span class="node-chip">Hub (ESP32)</span>
-              <span class="node-chip is-emphasis">MQTT</span>
-            </div>
-          </div>
-
-          <div class="layer-connector"></div>
-
-          <div class="layer-row">
-            <div class="layer-label">Capa 2<br />Borde</div>
-            <div class="layer-nodes">
-              <span class="node-chip">Edge (Raspberry)</span>
-              <span class="node-chip">Edge (Raspberry)</span>
-              <span class="node-chip">Edge (Raspberry)</span>
-              <span class="node-chip is-emphasis">gRPC</span>
-            </div>
-          </div>
-
-          <div class="layer-connector"></div>
-
-          <div class="layer-row">
-            <div class="layer-label">Capa 3<br />Servidor</div>
-            <div class="layer-nodes">
-              <span class="node-chip">Router Service</span>
-              <span class="node-chip">Manager Service</span>
-              <span class="node-chip">Data Saver Service</span>
-              <span class="node-chip">Frontend</span>
-              <span class="node-chip">Grafana</span>
-              <span class="node-chip">User DB</span>
-              <span class="node-chip">Manager DB</span>
-              <span class="node-chip">Telemetry DB</span>
-            </div>
-          </div>
+        <div class="diagram-container">
+          <img src="diagrams/arquitectura.svg" alt="Arquitectura jerárquica" class="full-diagram">
         </div>
       </section>
 
       <!-- ================================================================
-           SLIDE 6 — ARQUITECTURA DEL DISPOSITIVO HUB
+           SLIDE 5 — ARQUITECTURA DEL DISPOSITIVO EDGE
       ================================================================= -->
       <section>
-        <h2>Arquitectura del dispositivo Hub <span class="tag">ESP32</span></h2>
-        <div class="radial-diagram">
-          <div class="radial-node">CLI · WifiService</div>
-          <div class="radial-node">DataService</div>
-          <div class="radial-node">FsmService</div>
-
-          <div class="radial-node">MqttService</div>
-          <div class="radial-core">Core</div>
-          <div class="radial-node">ConfigManager</div>
-
-          <div class="radial-node">MessageService</div>
-          <div class="radial-node">HeartbeatService</div>
-          <div class="radial-node">OtaService · TimerService</div>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           SLIDE 7 — ARQUITECTURA DEL DISPOSITIVO EDGE
-      ================================================================= -->
-      <section>
-        <h2>Arquitectura del dispositivo Edge <span class="tag">Raspberry</span></h2>
-        <div class="radial-diagram">
-          <div class="radial-node">GrpcService</div>
-          <div class="radial-node">FirmwareService</div>
-          <div class="radial-node">FsmService</div>
-
-          <div class="radial-node">MqttService</div>
-          <div class="radial-core">Core</div>
-          <div class="radial-node">NetworkService</div>
-
-          <div class="radial-node">MessageService</div>
-          <div class="radial-node">HeartbeatService · MetricsService</div>
-          <div class="radial-node">DataService → DB</div>
+        <h2>Arquitectura del dispositivo Edge</h2>
+        <div class="diagram-container">
+          <img src="diagrams/edge-arquitectura.svg" alt="Arquitectura del dispositivo Edge" class="full-diagram">
         </div>
       </section>
 
