@@ -340,3 +340,71 @@ window.addEventListener('resize', () => {
     initInteractiveNetwork();
   }
 });
+
+/* ========================================================================
+   5. EFECTO TYPING PARA "PIMAD"
+   ======================================================================== */
+function initTypingEffect() {
+  const el = document.getElementById('typing-pimad');
+  if (!el) return;
+  
+  const text = 'PIMAD';
+  let i = 0;
+  let isDeleting = false;
+  
+  function type() {
+    el.textContent = text.substring(0, i);
+    
+    let speed = 300; // Velocidad de tipeo
+    
+    if (!isDeleting) {
+      if (i < text.length) {
+        i++;
+      } else {
+        isDeleting = true;
+        speed = 2500; // Pausa larga cuando la palabra está completa
+      }
+    } else {
+      if (i > 0) {
+        i--;
+        speed = 100; // Velocidad de borrado más rápida
+      } else {
+        isDeleting = false;
+        speed = 500; // Pausa antes de volver a empezar a tipear
+      }
+    }
+    
+    setTimeout(type, speed);
+  }
+  
+  // Empezar el efecto con un leve retraso
+  setTimeout(type, 500);
+}
+
+// Inicializar cuando Reveal esté listo
+Reveal.on("ready", () => {
+  initTypingEffect();
+});
+
+/* ========================================================================
+   6. LOTTIE ANIMATIONS
+   ======================================================================== */
+function initLottieAnimations() {
+  const containers = document.querySelectorAll('.lottie-anim');
+  containers.forEach(container => {
+    const animPath = container.getAttribute('data-anim');
+    if (animPath && typeof lottie !== 'undefined') {
+      lottie.loadAnimation({
+        container: container,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: animPath
+      });
+    }
+  });
+}
+
+Reveal.on("ready", () => {
+  initLottieAnimations();
+});

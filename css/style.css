@@ -132,7 +132,7 @@ body {
   font-family: var(--font-display);
   font-weight: 600;
   color: var(--color-ink);
-  text-transform: none;      /* evitamos el "todo mayúsculas" genérico */
+  text-transform: none;      
   letter-spacing: -0.01em;
   margin: 0 0 0.6em 0;
   line-height: 1.15;
@@ -142,7 +142,7 @@ body {
   font-size: 1.9em;
   border-bottom: 2px solid var(--color-line);
   padding-bottom: 0.35em;
-  margin-bottom: 0.9em;
+  margin-bottom: 0.3em;
 }
 
 .reveal p {
@@ -272,12 +272,8 @@ body {
 
 
 /* --------------------------------------------------------------------------
-   5. PIE DE PÁGINA PERSISTENTE
-   Reemplaza el pie fijo "F. Sarubbi et al. (UNSL) — PIMAD — CACIC 2026" de
-   la versión LaTeX. Se ve en todas las diapositivas, discreto, en la
-   esquina inferior IZQUIERDA (a propósito: la esquina inferior derecha
-   queda libre para las flechas de navegación de Reveal.js, así no se
-   amontonan varios elementos en el mismo lugar). */
+  5. PIE DE PÁGINA PERSISTENTE
+*/
 .deck-footer {
   position: fixed;
   bottom: 16px;
@@ -323,9 +319,9 @@ body {
   transition: opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease;
 }
 
-/* Número activo: tamaño intermedio (ni muy chico ni muy grande) y color
-   de acento fuerte para que se distinga a simple vista desde el fondo
-   del aula. */
+/* Número activo: tamaño y color de acento fuerte para que se distinga
+  a simple vista. 
+*/
 .slide-counter .num.is-current {
   font-size: 50px;
   font-weight: 600;
@@ -336,8 +332,8 @@ body {
 }
 
 /* Números adyacentes (anterior / siguiente): más chicos, difuminados y
-   semitransparentes, para que se lean como referencia sin competir con
-   el número activo. */
+  semitransparentes. 
+*/
 .slide-counter .num.is-adjacent {
   font-size: 35px;
   color: var(--color-ink-muted);
@@ -359,9 +355,7 @@ body {
    6. COMPONENTES DE CONTENIDO
    -------------------------------------------------------------------------- */
 
-/* Etiqueta pequeña de sección (usar solo cuando aporta información real,
-   por ejemplo el número de capa o el nombre de un protocolo — nunca como
-   decoración vacía). */
+/* Etiqueta pequeña de sección  */
 .tag {
   display: inline-block;
   font-family: var(--font-mono);
@@ -373,22 +367,18 @@ body {
   background: var(--color-accent-soft);
 }
 
-/* Lista de viñetas con marcador propio (una barra corta en vez del punto
-   redondo por defecto), para que se sienta parte del esquema técnico */
+/* Lista de viñetas con marcador propio */
 .brief-list {
   list-style: none;
-  margin-top: 0.6em;
+  margin-top: 0.2em;
 }
 .brief-list li {
   position: relative;
   padding: 0.55em 0 0.55em 1.3em;
   font-size: 1em;
   line-height: 1.5;
-  border-bottom: 1px solid var(--color-line);
 }
-.brief-list li:last-child {
-  border-bottom: none;
-}
+
 .brief-list li::before {
   content: "";
   position: absolute;
@@ -418,7 +408,7 @@ body {
   margin-bottom: 0.5em;
 }
 
-/* Grilla de tarjetas técnicas (decisiones tecnológicas, funcionalidades) */
+/* Grilla de tarjetas técnicas */
 .card-grid {
   display: grid;
   gap: 18px;
@@ -435,7 +425,6 @@ body {
   position: relative;
 }
 .tech-card::before {
-  /* filete superior de color: marca de "nodo técnico" sin usar sombra */
   content: "";
   position: absolute;
   top: 0; left: 0; right: 0;
@@ -444,15 +433,45 @@ body {
   border-radius: 6px 6px 0 0;
 }
 .tech-card .tech-icon {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   color: var(--color-primary);
-  margin-bottom: 0.5em;
+  margin-bottom: 0.1em;
+  display: block;
 }
+.tech-card .lottie-anim {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 0.2em auto;
+  /* Filtro CSS para transformar negro a azul institucional (#0b3d91 aprox) */
+  filter: invert(17%) sepia(87%) saturate(2251%) hue-rotate(205deg) brightness(85%) contrast(100%);
+}
+
+[data-theme="dark"] .tech-card .lottie-anim {
+  /* Filtro CSS para transformar negro al azul claro del modo oscuro (#4a90e2 aprox) */
+  filter: invert(53%) sepia(50%) saturate(2000%) hue-rotate(190deg) brightness(95%) contrast(90%);
+}
+
 .tech-card h3 {
   font-size: 0.78em;
   margin-bottom: 0.3em;
 }
+
+.card-grid.cols-3 .tech-card h3 {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+/* Reducimos el padding de las tarjetas de objetivos para que entren en pantalla con animaciones grandes */
+.card-grid.cols-3 .tech-card {
+  padding: 0.2em 1.1em 0.6em 1.1em; /* Menos espacio arriba y abajo */
+}
+
+.card-grid.cols-3 {
+  gap: 0.8em;
+  margin-top: 0.8em;
+}
+
 .tech-card p {
   font-size: 0.62em;
   color: var(--color-ink-muted);
@@ -892,10 +911,6 @@ body {
     gap: 1.2em;
   }
 
-  .node-network {
-    display: none; /* evitamos recargar la portada en pantallas chicas */
-  }
-
   .theme-toggle {
     top: 14px;
     left: 14px;
@@ -910,8 +925,18 @@ body {
   .slide-counter .num.is-adjacent { font-size: 12px; }
 
   .deck-footer {
-    display: none; /* en celular, priorizamos el espacio de lectura */
+    display: none; 
   }
+}
+
+.typing-cursor {
+  animation: blink-cursor 0.8s step-end infinite;
+  opacity: 1;
+}
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 /* Respeta la preferencia de reducción de movimiento del sistema operativo */

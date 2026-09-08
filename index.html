@@ -75,14 +75,14 @@
 
         <div class="cover-content-layout">
           <div class="cover-text">
-            <p class="cover-eyebrow">Congreso CACIC · Octubre 2026</p>
-            <h1 class="cover-title" style="margin-bottom: 0;">PIMAD</h1>
+            <p class="cover-eyebrow">CACIC · Octubre 2026</p>
+            <h1 class="cover-title" style="margin-bottom: 0; min-height: 1.15em;"><span id="typing-pimad"></span><span class="typing-cursor">|</span></h1>
             <p class="cover-subtitle" style="margin-top: 0.3em; line-height: 1.15; font-size: 1.2em;">
               <strong class="highlight-letter">P</strong>lataforma<br/>
               <strong class="highlight-letter">I</strong>oT<br/>
               <strong class="highlight-letter">M</strong>odular de<br/>
               <strong class="highlight-letter">A</strong>dquisición<br/>
-              <strong class="highlight-letter">D</strong>istribuida.<br />
+              <strong class="highlight-letter">D</strong>istribuida<br />
             </p>
 
             <div class="cover-meta" style="flex-direction: column; gap: 1em;">
@@ -108,76 +108,73 @@
            SLIDE 2 — MOTIVACIÓN Y PROBLEMA DE ESTUDIO
       ================================================================= -->
       <section>
-        <h2>Motivación y problema de estudio</h2>
+        <h2>Motivación</h2>
         <ul class="brief-list">
+
+          <li class="fragment">
+            El departamento de informática tenía la necesidad de disponer de un sistema de adquisición 
+            de datos capaz de adaptarse fácilmente a diferentes contextos y aplicaciones. Las soluciones 
+            comerciales presentan múltiples limitaciones.
+          </li>
+
+          <li class="fragment">
+            Una aplicación de particular interés era estudiar el <strong>ambiente dentro de las aulas.</strong>
+            Con estos datos se podría optimizar el uso de las mismas y conocer su confort.
+          </li>
+
           <li class="fragment">
             La <strong>calidad del ambiente interior (IEQ)</strong> impacta directamente en la salud,
             el confort y el rendimiento cognitivo en entornos educativos y laborales.
           </li>
+
           <li class="fragment">
-            Las soluciones comerciales actuales presentan limitaciones por sus
-            <strong>altos costos</strong>, su <strong>baja interoperabilidad</strong> y arquitecturas
-            monolíticas que dificultan la escalabilidad.
+            A futuro se proyecta el desarrollo de <strong>gemelos digitales.</strong>
           </li>
-          <li class="fragment">
-            La mayoría de los sistemas priorizan la recolección de datos
-            <strong>por sobre la resiliencia y la seguridad</strong>.
-          </li>
+
         </ul>
       </section>
 
       <!-- ================================================================
-           SLIDE 3 — DECISIONES TECNOLÓGICAS BASE
-      ================================================================= -->
-      <section>
-        <h2>Decisiones tecnológicas base</h2>
-        <div class="card-grid cols-2">
-          <div class="tech-card fragment">
-            <svg class="tech-icon" viewBox="0 0 24 24" fill="none"><path d="M4 12h4M16 12h4M12 4v4M12 16v4M7 7l2.5 2.5M14.5 14.5L17 17M17 7l-2.5 2.5M9.5 14.5L7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><rect x="8" y="8" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>
-            <h3>Edge computing</h3>
-            <p>Necesidad de delegar la coordinación en el borde para evitar cuellos de botella en la nube.</p>
-          </div>
-          <div class="tech-card fragment">
-            <svg class="tech-icon" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 9.5-4-1.3-7-5-7-9.5V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <h3>Seguridad mTLS (PKI)</h3>
-            <p>Innegociable para evitar suplantación en redes institucionales y proteger la telemetría.</p>
-          </div>
-          <div class="tech-card fragment">
-            <svg class="tech-icon" viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M9.5 7V4M14.5 7V4M9.5 20v-3M14.5 20v-3M7 9.5H4M7 14.5H4M20 9.5h-3M20 14.5h-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-            <h3>Rust</h3>
-            <p>Elegido para el firmware y servicios críticos por su seguridad de memoria en sistemas concurrentes de alto rendimiento, evitando <em>data races</em> y <em>memory leaks</em> comunes en C/C++.</p>
-          </div>
-          <div class="tech-card fragment">
-            <svg class="tech-icon" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="2" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="6" r="2" stroke="currentColor" stroke-width="1.6"/><circle cx="19" cy="18" r="2" stroke="currentColor" stroke-width="1.6"/><path d="M7 12h5M12 12l5-4.5M12 12l5 4.5" stroke="currentColor" stroke-width="1.6"/></svg>
-            <h3>Protocolos heterogéneos</h3>
-            <p><span class="tag">MQTT</span> para ligereza en el borde; <span class="tag">gRPC</span> para persistencia y baja latencia hacia el servidor.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           SLIDE 4 — OBJETIVOS Y FUNCIONALIDADES CLAVE
+           SLIDE 3 — OBJETIVOS Y FUNCIONALIDADES CLAVE
       ================================================================= -->
       <section>
         <h2>Objetivos y funcionalidades clave</h2>
 
         <div class="objective-box">
-          <span class="tag">Objetivo</span>
-          El objetivo es diseñar e implementar una plataforma IoT modular, segura y distribuida.
+          El <strong>objetivo</strong> es diseñar e implementar una plataforma IoT modular, escalable, segura y resiliente para la recolección, 
+          procesamiento y visualización en tiempo real de datos ambientales.
         </div>
 
         <div class="card-grid cols-3">
-          <div class="tech-card fragment"><h3>Captura y procesamiento</h3><p>Captura de datos y procesamiento en el borde.</p></div>
-          <div class="tech-card fragment"><h3>Visualización</h3><p>Datos históricos y en tiempo real.</p></div>
-          <div class="tech-card fragment"><h3>Monitoreo remoto</h3><p>Monitoreo remoto de dispositivos.</p></div>
-          <div class="tech-card fragment"><h3>Actualizaciones OTA</h3><p>Actualizaciones de software remotas.</p></div>
-          <div class="tech-card fragment"><h3>Administración de red</h3><p>Administración remota de redes.</p></div>
-          <div class="tech-card fragment"><h3>Sistema de alertas</h3><p>Ante caídas de dispositivos o anomalías ambientales.</p></div>
+          <div class="tech-card fragment">
+            <div class="lottie-anim" data-anim="animations/procesamiento.json"></div>
+            <h3>Captura y procesamiento</h3>
+          </div>
+          <div class="tech-card fragment">
+            <div class="lottie-anim" data-anim="animations/visualizacion.json"></div>
+            <h3>Visualización</h3>
+          </div>
+          <div class="tech-card fragment">
+            <div class="lottie-anim" data-anim="animations/monitoreo_remoto.json"></div>
+            <h3>Monitoreo remoto</h3>
+          </div>
+          <div class="tech-card fragment">
+            <div class="lottie-anim" data-anim="animations/ota.json"></div>
+            <h3>Actualizaciones OTA</h3>
+          </div>
+          <div class="tech-card fragment">
+            <div class="lottie-anim" data-anim="animations/administracion_red.json"></div>
+            <h3>Administración de red</h3>
+          </div>
+          <div class="tech-card fragment">
+            <div class="lottie-anim" data-anim="animations/alertas.json"></div>
+            <h3>Sistema de alertas</h3>
+          </div>
         </div>
       </section>
 
       <!-- ================================================================
-           SLIDE 5 — ARQUITECTURA JERÁRQUICA
+           SLIDE 4 — ARQUITECTURA JERÁRQUICA
       ================================================================= -->
       <section>
         <h2>Arquitectura jerárquica</h2>
@@ -420,6 +417,9 @@
   
   <!-- D3.js para la red interactiva de la portada -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <!-- Lottie Web para animaciones JSON -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
 
   <!-- Lógica propia: inicialización de Reveal.js + selector de tema -->
   <script src="js/main.js"></script>
