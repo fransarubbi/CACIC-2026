@@ -724,6 +724,42 @@ body {
   margin-bottom: 0.2em;
 }
 
+.cover-content-layout {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: -6vh; /* Sube el contenido para dejar espacio abajo */
+  position: relative;
+  z-index: 20; /* Asegura que texto y logos queden por encima del grafo si se superponen */
+  pointer-events: none; /* Permite que los clicks pasen a través del layout hacia el grafo */
+}
+
+.cover-text {
+  flex: 0 0 auto;
+  pointer-events: auto; /* Restaura la selección de texto para esta sección */
+}
+
+.cover-logos {
+  display: flex;
+  align-items: center;
+  gap: 2.5em;
+  margin-left: 4em;
+}
+
+.cover-logo {
+  width: 130px;
+  height: auto;
+  opacity: 0.4;
+  filter: grayscale(1);
+  pointer-events: none;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+[data-theme="dark"] .cover-logo {
+  filter: invert(1) grayscale(1);
+  opacity: 0.6;
+}
+
 /* Red de nodos animada, muy sutil, sólo en la portada (el único momento de
    animación no disparada por el usuario que se permite en toda la
    presentación, tal como indica el criterio de restricción del motion). */
