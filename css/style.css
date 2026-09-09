@@ -979,6 +979,12 @@ button:focus-visible {
 
 .full-diagram {
   max-width: 100%;
-  max-height: 56vh; /* Maximiza el tamaño sin tocar el pie de página ni el título */
+  max-height: 480px;
   object-fit: contain;
+  transition: filter 0.3s ease;
+}
+
+/* Inversión automática de diagramas en modo oscuro para visibilidad */
+[data-theme="dark"] .full-diagram {
+  filter: invert(1) hue-rotate(180deg);
 }
