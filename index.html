@@ -195,6 +195,43 @@
       </section>
 
       <!-- ================================================================
+           SLIDE 6 — PROTOCOLOS
+      ================================================================= -->
+      <section>
+        <h2>Protocolos de aplicación personalizados</h2>
+        <div class="protocol-grid">
+          <div class="protocol-card fragment">
+            <div class="lottie-protocol" data-anim="animations/balanceo.json"></div>
+            <div class="protocol-content">
+              <span class="protocol-code">PCBPF</span>
+              <p>Protocolo de Coordinación y Balanceo Post-Fallo. Controla el envío de mensajes respaldados cuando el Edge inicia su operación y evita ráfagas de tráfico.</p>
+            </div>
+          </div>
+          <div class="protocol-card fragment">
+            <div class="lottie-protocol" data-anim="animations/vinculacion.json"></div>
+            <div class="protocol-content">
+              <span class="protocol-code">PV</span>
+              <p>Protocolo de Vinculación. Formaliza el descubrimiento y registro persistente entre dispositivos.</p>
+            </div>
+          </div>
+          <div class="protocol-card fragment">
+            <div class="lottie-protocol" data-anim="animations/sincronizacion.json"></div>
+            <div class="protocol-content">
+              <span class="protocol-code">PSCH</span>
+              <p>Protocolo de Sincronización de Configuración. Mantiene la consistencia entre la configuración local y el servidor mediante confirmaciones.</p>
+            </div>
+          </div>
+          <div class="protocol-card fragment">
+            <div class="lottie-protocol" data-anim="animations/protocolo_alertas.json"></div>
+            <div class="protocol-content">
+              <span class="protocol-code">PRABS</span>
+              <p>Protocolo de Respaldo de Alertas. Permite a los Hubs saltear un nodo Edge caído y enviar alertas críticas directamente al servidor por HTTP.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
            SLIDE 8 — INFRAESTRUCTURA DEL SERVIDOR
       ================================================================= -->
       <section>
@@ -220,35 +257,6 @@
               <span class="node-chip">Data Saver Service — Rust</span>
               <span class="node-chip is-emphasis">PostgreSQL (manager_db · datasaver_db)</span>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           SLIDE 9 — MECANISMOS DE RESILIENCIA EN LA RED
-      ================================================================= -->
-      <section>
-        <h2>Mecanismos de resiliencia en la red</h2>
-        <p style="font-size:0.62em; color:var(--color-ink-muted); margin-bottom:0.8em;">
-          Tanto el Hub como el Edge cuentan con almacenamiento temporal de datos
-          para evitar pérdida de información durante cortes de conectividad.
-        </p>
-        <div class="protocol-grid">
-          <div class="protocol-card fragment">
-            <span class="protocol-code">PCBPF</span>
-            <p>Protocolo de Coordinación y Balanceo Post-Fallo. Controla el envío de mensajes respaldados cuando el Edge inicia su operación y evita ráfagas de tráfico.</p>
-          </div>
-          <div class="protocol-card fragment">
-            <span class="protocol-code">PV</span>
-            <p>Protocolo de Vinculación. Formaliza el descubrimiento y registro persistente entre dispositivos.</p>
-          </div>
-          <div class="protocol-card fragment">
-            <span class="protocol-code">PSCH</span>
-            <p>Protocolo de Sincronización de Configuración. Mantiene la consistencia entre la configuración local y el servidor mediante confirmaciones.</p>
-          </div>
-          <div class="protocol-card fragment">
-            <span class="protocol-code">PRABS</span>
-            <p>Protocolo de Respaldo de Alertas. Permite a los Hubs saltear un nodo Edge caído y enviar alertas críticas directamente al servidor por HTTP.</p>
           </div>
         </div>
       </section>

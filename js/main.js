@@ -390,7 +390,7 @@ Reveal.on("ready", () => {
    6. LOTTIE ANIMATIONS
    ======================================================================== */
 function initLottieAnimations() {
-  const containers = document.querySelectorAll('.lottie-anim');
+  const containers = document.querySelectorAll('.lottie-anim, .lottie-protocol');
   containers.forEach(container => {
     const animPath = container.getAttribute('data-anim');
     if (animPath && typeof lottie !== 'undefined') {
