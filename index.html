@@ -252,50 +252,61 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 10 — VALIDACIÓN EXPERIMENTAL EN CAMPO
-           (Separador de sección — reemplazar los marcos por capturas/
-           gráficos reales de los resultados de campo)
+           SLIDE 8 — DESPLIEGUE
       ================================================================= -->
       <section>
-        <h2>Validación experimental en campo</h2>
-        <div class="field-placeholder">
-          <div class="field-frame">Captura / gráfico<br />de despliegue real</div>
-          <div class="field-frame">Serie temporal<br />de sensores</div>
-          <div class="field-frame">Panel de<br />Grafana</div>
+        <h2>Despliegue</h2>
+        <div class="deployment-layout">
+          <div class="deployment-half">
+            <iframe src="animations/planos.html" class="deployment-iframe" scrolling="no" frameborder="0"></iframe>
+          </div>
+          <div class="deployment-half">
+            <img src="diagrams/despliegue.svg" class="deployment-img" alt="Despliegue de red">
+          </div>
         </div>
-        <p style="font-size:0.55em; color:var(--color-ink-muted); margin-top:1em;">
-          Espacio reservado para las capturas y gráficos interactivos de la validación en campo.
-        </p>
       </section>
 
       <!-- ================================================================
-           SLIDE 11 — CONCLUSIONES Y PRÓXIMOS PASOS
+           SLIDE 9 — RESULTADOS
       ================================================================= -->
       <section>
-        <h2>Conclusiones y próximos pasos</h2>
+        <h2>Resultados</h2>
         <ul class="brief-list">
           <li class="fragment">
-            La <strong>arquitectura jerárquica</strong> probó ser exitosa para desacoplar el tipo de
-            sensor de la infraestructura de comunicación y seguridad.
+            Durante X días de despliegue, el sistema procesó y persistió ininterrumpidamente más de 
+            X registros de telemetría, alcanzando un tamaño de almacenamiento de X MB.
           </li>
           <li class="fragment">
-            La plataforma es <strong>altamente reconfigurable</strong> y puede transferirse a otros
-            dominios modificando únicamente la capa externa (Hub).
-          </li>
-          <li class="fragment">
-            El trabajo futuro se centrará en la aplicación de técnicas de
-            <strong>Inteligencia Artificial y Ciencia de Datos</strong>.
-          </li>
-          <li class="fragment">
-            Se planea utilizar el historial de datos recolectados para entrenar modelos de
-            aprendizaje supervisado capaces de <strong>predecir condiciones ambientales</strong> y
-            <strong>detectar anomalías</strong> de manera automática.
+            Los nodos Hub demostraron ser altamente estables, ya acumulan X dias de funcionamiento
+            ininterrumpido y siguen sumando.
           </li>
         </ul>
       </section>
 
       <!-- ================================================================
-           SLIDE 12 — PREGUNTAS Y DEBATE
+           SLIDE 10 — CONCLUSIONES Y PRÓXIMOS PASOS
+      ================================================================= -->
+      <section>
+        <h2>Conclusiones y próximos pasos</h2>
+        <ul class="brief-list">
+          <li class="fragment">
+            Se logró desarrollar e implementar un sistema de adquisición de datos flexible que 
+            supera las limitaciones de caja cerrada de las soluciones comerciales, cumpliendo 
+            con la necesidad inicial del departamento.
+          </li>
+          <li class="fragment">
+            La plataforma es <strong>altamente reconfigurable</strong> y puede transferirse a otros
+            dominios modificando principalmente la capa 1 (Hub).
+          </li>
+          <li class="fragment">
+            Si bien la plataforma es funcional, el hardware de sensado es <strong>entry-level,</strong> por 
+            lo que los datos recolectados se deben "tomar con pinzas". 
+          </li>
+        </ul>
+      </section>
+
+      <!-- ================================================================
+           SLIDE 11 — PREGUNTAS Y DEBATE
       ================================================================= -->
       <section class="cover-slide">
         <p class="cover-eyebrow">Preguntas y debate</p>
@@ -309,36 +320,51 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 13 — BIBLIOGRAFÍA PRINCIPAL
+           SLIDE 12 — BIBLIOGRAFÍA PRINCIPAL
            data-count="exclude": esta diapositiva no forma parte del
            conteo "página X de Y" del contador de arriba a la derecha.
       ================================================================= -->
       <section data-count="exclude">
-        <h2>Bibliografía principal</h2>
-        <ol class="biblio-list">
-          <li>
-            <span class="biblio-index">[1]</span>
-            <span>
-              Allen, J.G., et al. (2016). Associations of cognitive function scores with carbon dioxide concentrations and ventilation rates in office environments.
-              <span class="biblio-source">Environmental Health Perspectives, 124(6), 805–812.</span>
-            </span>
-          </li>
-          <li>
-            <span class="biblio-index">[2]</span>
-            <span>
-              Broday, E.E., Gameiro da Silva, M.C. (2023). The role of internet of things (IoT) in the assessment of indoor environmental quality.
-              <span class="biblio-source">Smart and Sustainable Built Environment.</span>
-            </span>
-          </li>
-          <li>
-            <span class="biblio-index">[3]</span>
-            <span>
-              OASIS (2019). MQTT version 5.0.
-              <span class="biblio-source">Standard.</span>
-            </span>
-          </li>
-        </ol>
-      </section>
+      <h2>Bibliografía principal</h2>
+      <ol class="biblio-list">
+      <li>
+        <span class="biblio-index">[1]</span>
+        <span>
+        Allen, J.G., MacNaughton, P., Satish, U., Santanam, S., Vallarino, J., & Spengler, J.D. (2016). 
+        Associations of cognitive function scores with carbon dioxide, ventilation, and volatile organic compound exposures in office workers. 
+        <span class="biblio-source">Environmental Health Perspectives, 124(6), 805-812.</span>
+      </span>
+    </li>
+    <li>
+      <span class="biblio-index">[2]</span>
+      <span>
+        Broday, E.E., & Gameiro da Silva, M.C. (2023). The role of internet of things (IoT) in the assessment and communication of indoor environmental quality (IEQ) in buildings: A review. 
+        <span class="biblio-source">Smart and Sustainable Built Environment, 12(3), 584-606.</span>
+      </span>
+    </li>
+    <li>
+      <span class="biblio-index">[3]</span>
+      <span>
+        OASIS. (2019). MQTT version 5.0. 
+        <span class="biblio-source">OASIS Standard. https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.pdf</span>
+      </span>
+    </li>
+    <li>
+      <span class="biblio-index">[4]</span>
+      <span>
+        Madisetti, V.K., & Bahga, A. (Eds.). (2018). 
+        <span class="biblio-source">Springer handbook of Internet of Things. Springer.</span>
+      </span>
+    </li>
+    <li>
+      <span class="biblio-index">[5]</span>
+      <span>
+        Buchmann, J.A., Karatsiolis, E., & Wiesmaier, A. (2013). 
+        <span class="biblio-source">Introduction to public key infrastructures. Springer.</span>
+      </span>
+    </li>
+  </ol>
+</section>
 
     </div>
   </div>

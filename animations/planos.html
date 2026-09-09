@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Red de sensores — Hub / Edge</title>
+<style>
+  /* ============================================================
+     Todo el CSS está bajo .hubedge-plan para poder pegarse dentro
+     de un <section> de reveal.js sin chocar con otros estilos.
+     ============================================================ */
+  .hubedge-plan{
+    --c-wall:#171a1f;
+    --c-floor-a:#eef1f5;
+    --c-floor-b:#e4e9ee;
+    --c-hub:#1f9e93;
+    --c-hub-soft:#1f9e9329;
+    --c-edge:#7c5cf0;
+    --c-edge-soft:#7c5cf029;
+    --c-ink:#3a4552;
+    --c-ink-faint:#8b97a3;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    box-sizing:border-box;
+    background:transparent;
+  }
+  .hubedge-plan *{ box-sizing:border-box; }
+  .hubedge-svgwrap{ flex:1 1 auto; min-height:0; display:flex; }
+  .hubedge-plan svg{ width:100%; height:100%; display:block; }
+
+  .hubedge-wall{ fill:none; stroke:var(--c-wall); stroke-width:14; stroke-linecap:round; stroke-linejoin:round; }
+  .hubedge-door{ fill:none; stroke:var(--c-ink-faint); stroke-width:2.2; }
+
+  .hubedge-node circle.hubedge-glow{ transform-box:fill-box; transform-origin:center; animation:hubedgePulse 3.6s ease-in-out infinite; }
+  .hubedge-node.h circle.hubedge-glow{ fill:var(--c-hub); }
+  .hubedge-node.e circle.hubedge-glow{ fill:var(--c-edge); }
+  .hubedge-node.h circle.hubedge-badge{ stroke:var(--c-hub); }
+  .hubedge-node.e circle.hubedge-badge{ stroke:var(--c-edge); }
+  .hubedge-node circle.hubedge-badge{ fill:#fff; stroke-width:4; filter:drop-shadow(0 2px 5px rgba(15,23,42,.18)); }
+  .hubedge-node.h text{ fill:var(--c-hub); }
+  .hubedge-node.e text{ fill:var(--c-edge); }
+  .hubedge-node text{ font-size:19px; font-weight:700; text-anchor:middle; dominant-baseline:central; }
+
+  @keyframes hubedgePulse{
+    0%,100%{ opacity:.16; transform:scale(1); }
+    50%{ opacity:.34; transform:scale(1.16); }
+  }
+
+  .hubedge-envelope{ pointer-events:none; }
+  .hubedge-envelope rect{ fill:#ffffff; stroke:#8d98a6; stroke-width:1.3; }
+  .hubedge-envelope path{ fill:none; stroke:#8d98a6; stroke-width:1.3; stroke-linejoin:round; }
+  .hubedge-envelope circle{ stroke:none; }
+  .hubedge-envelope{ filter:drop-shadow(0 2px 3px rgba(15,23,42,.22)); }
+
+  .hubedge-ring{ fill:none; stroke-width:2.4; pointer-events:none; transform-box:fill-box; transform-origin:center; animation:hubedgeRing .68s ease-out forwards; }
+  @keyframes hubedgeRing{
+    from{ opacity:.85; transform:scale(1); }
+    to{ opacity:0; transform:scale(1.75); }
+  }
+
+  .hubedge-wallpulse{ fill:none; stroke:#ffffff; stroke-width:2; pointer-events:none; transform-box:fill-box; transform-origin:center; animation:hubedgeWallPulse .55s ease-out forwards; }
+  @keyframes hubedgeWallPulse{
+    from{ opacity:.9; transform:scale(.4); }
+    to{ opacity:0; transform:scale(2.2); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hubedge-node circle.hubedge-glow{ animation-duration:7.2s; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;width:100%;height:100%;">
+
+<div class="hubedge-plan" id="hubedgePlan">
+  <div class="hubedge-svgwrap">
+    <svg viewBox="0 0 760 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="hubedgeGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="1.2" cy="1.2" r="1.2" fill="#0f172a" opacity=".05"/>
+        </pattern>
+        <linearGradient id="hubedgeFloor" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="var(--c-floor-a)"/>
+          <stop offset="1" stop-color="var(--c-floor-b)"/>
+        </linearGradient>
+      </defs>
+
+      <!-- ===== Suelo ===== -->
+      <rect x="40" y="40" width="680" height="480" rx="6" fill="url(#hubedgeFloor)"/>
+      <rect x="40" y="40" width="680" height="480" rx="6" fill="url(#hubedgeGrid)"/>
+
+      <!-- ===== Muros ===== -->
+      <g>
+        <!-- perímetro exterior dividido para dejar huecos para dos puertas dobles -->
+        <path class="hubedge-wall" d="M 40,40 L 720,40 L 720,520 L 660,520 M 580,520 L 370,520 M 290,520 L 40,520 L 40,40" />
+        <!-- pared divisoria dejando el hueco superior para la puerta -->
+        <path class="hubedge-wall" d="M 390,520 L 390,100"/>
+      </g>
+
+      <!-- ===== Puertas ===== -->
+      <!-- puerta entre aulas, en la divisoria -->
+      <path class="hubedge-door" d="M 390,40 A 60,60 0 0,0 330,100"/>
+
+      <!-- puerta doble aula A (izquierda) -->
+      <path class="hubedge-door" d="M 290,520 L 290,480 A 40,40 0 0,1 330,520 M 370,520 L 370,480 A 40,40 0 0,0 330,520"/>
+
+      <!-- puerta doble aula B (derecha) -->
+      <path class="hubedge-door" d="M 580,520 L 580,480 A 40,40 0 0,1 620,520 M 660,520 L 660,480 A 40,40 0 0,0 620,520"/>
+
+      <!-- ===== Capa de sobres animados ===== -->
+      <g id="hubedgeEnvelopes"></g>
+
+      <!-- ===== Dispositivos ===== -->
+      <g id="hubedgeNodes"></g>
+    </svg>
+  </div>
+</div>
+
+<script>
+(function(){
+  var svgNS = "http://www.w3.org/2000/svg";
+  var root = document.getElementById('hubedgePlan');
+
+  var CONFIG = {
+    messagesPerHubPerBurst: 2,
+    burstStaggerMs: 550,
+    hubStaggerMs: 90,
+    broadcastStaggerMs: 190,
+    pauseBetweenCyclesMs: 1600,
+    envelopeSpeedPxPerMs: 0.15,
+    minDurationMs: 1800,
+    maxDurationMs: 3500,
+    colorHtoE: 'var(--c-hub)',
+    colorEtoH: 'var(--c-edge)'
+  };
+
+  var NODES = {
+    h1: { type:'H', x:65,  y:110, room:'left'  },
+    h4: { type:'H', x:65,  y:330, room:'left'  },
+    h7: { type:'H', x:140, y:495, room:'left'  },
+    h2: { type:'H', x:600, y:65,  room:'right' },
+    h5: { type:'H', x:695, y:330, room:'right' },
+    h3: { type:'H', x:400, y:220, room:'wall'  },
+    h6: { type:'H', x:400, y:460, room:'wall'  },
+    e:  { type:'E', x:400, y:340, room:'wall'  }
+  };
+  var HUBS = ['h1','h4','h7','h2','h5','h3','h6'];
+
+  var BEND = { h1:34, h4:-34, h7:40, h2:-30, h5:32, h3:-18, h6:18 };
+
+  function bendFor(hubId){ return BEND[hubId] || 26; }
+
+  function bezierPoints(x1,y1,x2,y2,bend){
+    var dx=x2-x1, dy=y2-y1, len=Math.sqrt(dx*dx+dy*dy)||1;
+    var nx=-dy/len, ny=dx/len;
+    var cx=(x1+x2)/2 + nx*bend, cy=(y1+y2)/2 + ny*bend;
+    return {cx:cx, cy:cy};
+  }
+
+  function pointOnQuad(x1,y1,cx,cy,x2,y2,t){
+    var mt=1-t;
+    return {
+      x: mt*mt*x1 + 2*mt*t*cx + t*t*x2,
+      y: mt*mt*y1 + 2*mt*t*cy + t*t*y2
+    };
+  }
+
+  function el(tag, attrs, parent){
+    var n = document.createElementNS(svgNS, tag);
+    for(var k in attrs){ n.setAttribute(k, attrs[k]); }
+    if(parent) parent.appendChild(n);
+    return n;
+  }
+
+  var nodeLayer = document.getElementById('hubedgeNodes');
+  Object.keys(NODES).forEach(function(id){
+    var n = NODES[id];
+    var g = el('g', {
+      class:'hubedge-node ' + (n.type==='E' ? 'e' : 'h'),
+      'data-id': id
+    }, nodeLayer);
+    el('circle', { class:'hubedge-glow', cx:n.x, cy:n.y, r:38 }, g);
+    el('circle', { class:'hubedge-badge', cx:n.x, cy:n.y, r:26 }, g);
+    var t = el('text', { x:n.x, y:n.y+1 }, g);
+    t.textContent = n.type;
+  });
+
+  var envLayer = document.getElementById('hubedgeEnvelopes');
+
+  function spawnEnvelope(fromId, toId){
+    var from = NODES[fromId], to = NODES[toId];
+    var directionIsHtoE = (from.type === 'H');
+    var bend = bendFor(directionIsHtoE ? fromId : toId);
+    var A = directionIsHtoE ? from : to;
+    var B = directionIsHtoE ? to   : from;
+    var pts = bezierPoints(A.x,A.y,B.x,B.y,bend);
+
+    var dist = Math.hypot(B.x-A.x, B.y-A.y);
+    var duration = Math.min(CONFIG.maxDurationMs,
+                   Math.max(CONFIG.minDurationMs, dist / CONFIG.envelopeSpeedPxPerMs));
+
+    var seal = directionIsHtoE ? CONFIG.colorHtoE : CONFIG.colorEtoH;
+
+    var g = el('g', { class:'hubedge-envelope' }, envLayer);
+    el('rect', { x:-9, y:-6.5, width:18, height:13, rx:1.6 }, g);
+    el('path', { d:'M -9,-6.5 L 0,1 L 9,-6.5' }, g);
+    el('circle', { cx:0, cy:3.4, r:2.6, fill:seal }, g);
+
+    var wallArmed = (from.room === 'left'); 
+    var wallTriggered = false;
+    var start = null;
+
+    function frame(ts){
+      if(start === null) start = ts;
+      var t = (ts - start) / duration;
+      if(t > 1) t = 1;
+      var eased = t<0.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
+
+      var p;
+      if(directionIsHtoE){
+        p = pointOnQuad(A.x,A.y,pts.cx,pts.cy,B.x,B.y, eased);
+      } else {
+        p = pointOnQuad(A.x,A.y,pts.cx,pts.cy,B.x,B.y, 1-eased);
+      }
+
+      var scale = 1, opacity = 1;
+      if(t < 0.12){ scale = 0.35 + 0.65*(t/0.12); opacity = t/0.12; }
+      else if(t > 0.86){ var f=(1-t)/0.14; scale = 0.35 + 0.65*f; opacity = f; }
+
+      g.setAttribute('transform', 'translate('+p.x+','+p.y+') scale('+scale+')');
+      g.style.opacity = opacity;
+
+      if(wallArmed && !wallTriggered && p.x >= 386 && p.x <= 398){
+        wallTriggered = true;
+        spawnWallPulse(p.x, p.y);
+      }
+
+      if(t < 1){
+        requestAnimationFrame(frame);
+      } else {
+        g.remove();
+        spawnArrivalRing(toId);
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function spawnWallPulse(x,y){
+    el('circle', { class:'hubedge-wallpulse', cx:x, cy:y, r:9 }, envLayer);
+    setTimeout(function(){
+      var pulses = envLayer.querySelectorAll('.hubedge-wallpulse');
+      pulses.forEach(function(p){ p.remove(); });
+    }, 650);
+  }
+
+  function spawnArrivalRing(nodeId){
+    var n = NODES[nodeId];
+    var ring = el('circle', {
+      class:'hubedge-ring',
+      cx:n.x, cy:n.y, r:26,
+      stroke: n.type==='E' ? CONFIG.colorEtoH : CONFIG.colorHtoE
+    }, envLayer);
+    setTimeout(function(){ ring.remove(); }, 720);
+  }
+
+  function runCycle(){
+    var maxBurstDelay = 0;
+    HUBS.forEach(function(id, i){
+      for(var k=0;k<CONFIG.messagesPerHubPerBurst;k++){
+        var delay = i*CONFIG.hubStaggerMs + k*CONFIG.burstStaggerMs + Math.random()*180;
+        maxBurstDelay = Math.max(maxBurstDelay, delay);
+        setTimeout((function(hid){ return function(){ spawnEnvelope(hid, 'e'); }; })(id), delay);
+      }
+    });
+
+    var afterBurst = maxBurstDelay + CONFIG.maxDurationMs + 350;
+    setTimeout(function(){
+      HUBS.forEach(function(id, i){
+        setTimeout((function(hid){ return function(){ spawnEnvelope('e', hid); }; })(id),
+          i*CONFIG.broadcastStaggerMs);
+      });
+      var afterBroadcast = HUBS.length*CONFIG.broadcastStaggerMs + CONFIG.maxDurationMs + CONFIG.pauseBetweenCyclesMs;
+      setTimeout(runCycle, afterBroadcast);
+    }, afterBurst);
+  }
+
+  setTimeout(runCycle, 700);
+})();
+</script>
+</body>
+</html>

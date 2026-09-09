@@ -988,3 +988,36 @@ button:focus-visible {
 [data-theme="dark"] .full-diagram {
   filter: invert(1) hue-rotate(180deg);
 }
+
+/* Layout lado a lado para slide de Despliegue */
+.deployment-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+  width: 100%;
+  height: 480px; /* Límite estricto para escalar contenido sin salir de la pantalla */
+  margin-top: 1em;
+}
+
+.deployment-half {
+  flex: 1;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deployment-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  pointer-events: none; /* Evita que el iframe bloquee el paso de diapositivas al arrastrar el mouse */
+}
+.deployment-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
