@@ -11,7 +11,6 @@ class LiveReloadHandler(http.server.SimpleHTTPRequestHandler):
             max_mtime = 0
             for root, dirs, files in os.walk('.'):
                 for file in files:
-                    # Ignore hidden files/dirs and git
                     if '/.' in root or file.startswith('.'):
                         continue
                     try:
@@ -31,7 +30,6 @@ class LiveReloadHandler(http.server.SimpleHTTPRequestHandler):
         return super().do_GET()
 
     def end_headers(self):
-        # Disable cache for everything during dev
         self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
         self.send_header("Pragma", "no-cache")
         self.send_header("Expires", "0")
@@ -40,7 +38,6 @@ class LiveReloadHandler(http.server.SimpleHTTPRequestHandler):
     def copyfile(self, source, outputfile):
         if self.path == '/' or self.path.endswith('.html'):
             content = source.read().decode('utf-8')
-            # Inject reload script
             reload_script = """
             <script>
             (function() {

@@ -1,31 +1,5 @@
-/* ============================================================================
-   PIMAD — Estilos de la presentación
-   ----------------------------------------------------------------------------
-   Dirección de diseño: estética de "esquema técnico" (blueprint de sistemas
-   distribuidos). Trazos finos, nodos y conectores en vez de tarjetas con
-   sombra genérica. Los nombres de protocolos y servicios (MQTT, gRPC,
-   MqttService, etc.) usan una tipografía monoespaciada porque son
-   identificadores técnicos reales, no una decoración.
-
-   El archivo está organizado en secciones:
-     1. Variables de tema (modo claro / modo oscuro)
-     2. Reset y base tipográfica
-     3. Ajustes generales de Reveal.js
-     4. Botón de cambio de tema
-     5. Pie de página persistente
-     6. Componentes de contenido (títulos, listas, chips, tarjetas)
-     7. Diagramas de arquitectura (capas, núcleo radial, zonas)
-     8. Slide de portada y de cierre
-     9. Responsive / accesibilidad
-   ========================================================================== */
-
-
 /* --------------------------------------------------------------------------
    1. VARIABLES DE TEMA
-   Definimos toda la paleta como variables CSS para poder cambiar de modo
-   claro a oscuro con un solo atributo (data-theme) en <html>, sin duplicar
-   reglas. Los colores están inspirados en la identidad de la UNSL: azul
-   profundo institucional + celeste.
    -------------------------------------------------------------------------- */
 :root {
   /* --- Modo claro (por defecto): fondo casi blanco, texto casi negro --- */
@@ -48,9 +22,7 @@
   --font-mono: "IBM Plex Mono", "Courier New", monospace;
 
   /* Color de la grilla de puntos de fondo. El 4to valor (0 a 1) es la
-     opacidad: subilo o bajalo para hacer los puntos más o menos notorios.
-     El tamaño del punto y la separación entre puntos se ajustan aparte,
-     en la regla ".reveal" (buscá el comentario "AJUSTAR VISIBILIDAD"). */
+     opacidad. El tamaño del punto y la separación entre puntos se ajustan aparte */
   --bg-dot-color: rgba(10, 70, 160, 0.10);
 
   --shadow-toggle: 0 1px 3px rgba(11, 20, 32, 0.18);
@@ -108,10 +80,10 @@ body {
 }
 
 /* Fondo con una grilla de puntos: referencia visual a una red de sensores /
-   placa de circuito. AJUSTAR VISIBILIDAD acá: el primer número (1.7px) es
-   el radio de cada punto, y "background-size" (24px 24px) es la distancia
-   entre puntos. Punto más grande o puntos más juntos = grilla más notoria.
-   El color/opacidad de los puntos se define en --bg-dot-color (arriba). */
+   placa de circuito. El primer número (1.7px) es el radio de cada punto, y 
+   "background-size" (24px 24px) es la distancia entre puntos. Punto más grande 
+   o puntos más juntos = grilla más notoria. El color/opacidad de los puntos se 
+   define en --bg-dot-color (arriba). */
 .reveal {
   background-image: 
     radial-gradient(ellipse 120% 150% at -20% 50%, var(--color-canvas) 30%, transparent 65%),
@@ -171,9 +143,7 @@ body {
    3. AJUSTES GENERALES DE REVEAL.JS
    -------------------------------------------------------------------------- */
 
-/* Tamaño de fuente base más grande de lo habitual en la web: esta
-   presentación se proyecta en un aula/auditorio y debe leerse desde el
-   fondo de la sala. */
+/* Tamaño de fuente base */
 .reveal {
   font-size: 30px;
 }
@@ -202,12 +172,11 @@ body {
 
 /* El número de diapositiva nativo de Reveal.js queda desactivado desde
    js/main.js (slideNumber: false) para no superponerse con las flechas de
-   navegación: en su lugar usamos el contador propio de la sección 10,
-   arriba a la derecha. */
+   navegación */
 
 
 /* --------------------------------------------------------------------------
-   4. BOTÓN DE CAMBIO DE TEMA
+   4. BOTON DE CAMBIO DE TEMA
    Ubicado en el extremo superior izquierdo, deliberadamente pequeño y sin
    texto. El ícono es un pictograma propio (tres nodos conectados, en
    referencia directa a la red distribuida de PIMAD) en vez de un sol/luna
@@ -273,6 +242,7 @@ body {
 
 /* --------------------------------------------------------------------------
   5. PIE DE PÁGINA PERSISTENTE
+  --------------------------------------------------------------------------
 */
 .deck-footer {
   position: fixed;
@@ -298,8 +268,7 @@ body {
    derecha y muestra el número anterior y el siguiente más chicos y
    difuminados (opacidad baja + un leve blur), y el número actual grande
    y en el color de acento. El contenido lo arma js/main.js según la
-   diapositiva activa (ver la sección "CONTADOR DE DIAPOSITIVAS" de ese
-   archivo); acá sólo se define el aspecto visual y la animación.
+   diapositiva activa, acá sólo se define el aspecto visual y la animación
    -------------------------------------------------------------------------- */
 .slide-counter {
   position: fixed;
@@ -526,11 +495,6 @@ body {
 
 /* --------------------------------------------------------------------------
    7. DIAGRAMAS DE ARQUITECTURA
-   Tres patrones reutilizables, con estética de esquema (líneas finas,
-   ángulos rectos, nodos rotulados) en vez de tarjetas con sombra:
-     - .layer-diagram   → arquitectura jerárquica en capas (slide 5)
-     - .radial-diagram  → núcleo + servicios alrededor (slides 6 y 7)
-     - .zone-diagram    → zonas de red del servidor (slide 8)
    -------------------------------------------------------------------------- */
 
 /* --- 7.1 Diagrama por capas --- */
@@ -794,9 +758,7 @@ body {
   opacity: 0.6;
 }
 
-/* Red de nodos animada, muy sutil, sólo en la portada (el único momento de
-   animación no disparada por el usuario que se permite en toda la
-   presentación, tal como indica el criterio de restricción del motion). */
+/* Red de nodos animada, sólo en la portada. */
 .node-network {
   position: absolute;
   top: 0;
@@ -849,8 +811,6 @@ body {
   flex: none;
 }
 
-/* Placeholder de la sección de validación experimental: pensado para que
-   se reemplace por capturas/gráficos reales de campo. */
 .field-placeholder {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

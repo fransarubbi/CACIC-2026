@@ -1,5 +1,4 @@
 /**
- * PIMAD — Presentación web
  * ----------------------------------------------------------------------
  * Este archivo hace dos cosas, cada una en su propia sección:
  *   1. Inicializa Reveal.js con la configuración de la presentación.
@@ -9,10 +8,10 @@
  *      usuario todavía no eligió nada manualmente.
  * ---------------------------------------------------------------------- */
 
+
 /* ========================================================================
    1. TEMA CLARO / OSCURO
    ======================================================================== */
-
 const CLAVE_TEMA = "pimad-theme";
 const raizDocumento = document.documentElement;
 const botonTema = document.getElementById("theme-toggle");
@@ -20,9 +19,7 @@ const botonTema = document.getElementById("theme-toggle");
 /**
  * Determina qué tema usar al cargar la página:
  *   - Si el usuario ya eligió un tema antes (guardado en localStorage),
- *     se respeta esa elección.
- *   - Si no, se usa la preferencia de color del sistema operativo
- *     (prefers-color-scheme).
+ *     se respeta esa elección
  */
 function obtenerTemaInicial() {
   const temaGuardado = localStorage.getItem(CLAVE_TEMA);
@@ -71,9 +68,7 @@ botonTema.addEventListener("click", alternarTema);
    ======================================================================== */
 
 Reveal.initialize({
-  // Dimensiones de referencia del "lienzo" de cada diapositiva. Reveal.js
-  // escala este lienzo como una unidad para que se vea bien tanto en un
-  // proyector como en una notebook o en el celular.
+  // Dimensiones de referencia del "lienzo" de cada diapositiva
   width: 1280,
   height: 720,
   margin: 0.06,
@@ -106,16 +101,7 @@ Reveal.initialize({
    ------------------------------------------------------------------------
    Reemplaza el "slide-number" nativo de Reveal.js por un contador propio
    que muestra el número anterior y el siguiente más chicos/difuminados,
-   y el número actual grande y en color de acento (los estilos están en
-   css/style.css, sección 5.1).
-
-   Reglas de negocio pedidas:
-     - La diapositiva de Bibliografía NO cuenta (se marca en el HTML con
-       el atributo data-count="exclude" y no aparece en la numeración).
-     - En la primera diapositiva contable no se muestra "anterior".
-     - En la última diapositiva contable no se muestra "siguiente".
-     - Si el usuario está mirando una diapositiva excluida (Bibliografía),
-       el contador se oculta por completo.
+   y el número actual grande y en color de acento
    ======================================================================== */
 
 const contenedorContador = document.getElementById("slide-counter");
@@ -167,9 +153,6 @@ function actualizarContadorDeDiapositivas(indiceHorizontal) {
   if (hayAnterior) {
     html += `<span class="num is-adjacent">${numeroActual - 1}</span>`;
   }
-  // "is-entering" arranca el número activo invisible/desplazado; lo
-  // sacamos en el siguiente frame para que la transición del CSS anime
-  // la aparición (efecto tipo odómetro).
   html += `<span class="num is-current is-entering">${numeroActual}</span>`;
   if (haySiguiente) {
     html += `<span class="num is-adjacent">${numeroActual + 1}</span>`;
@@ -185,28 +168,23 @@ function actualizarContadorDeDiapositivas(indiceHorizontal) {
   });
 }
 
-// Reveal.js dispara "slidechanged" cada vez que cambiamos de diapositiva...
 Reveal.on("slidechanged", (evento) => actualizarContadorDeDiapositivas(evento.indexh));
-
-// ...y "ready" una vez, cuando termina de inicializar, para pintar el
-// contador correspondiente a la diapositiva con la que abre la presentación
-// (por ejemplo, si alguien entra directamente a un link con #/5).
 Reveal.on("ready", (evento) => actualizarContadorDeDiapositivas(evento.indexh));
-/* ========================================================================
-   4. RED INTERACTIVA D3.JS (PORTADA)
-   ======================================================================== */
 
+
+/* =============================
+   4. RED INTERACTIVA D3.JS
+   ============================= */
 function initInteractiveNetwork() {
   const container = document.getElementById('interactive-network');
   if (!container || typeof d3 === 'undefined') return;
 
-  // Limpiar contenedor por si se reinicializa
   container.innerHTML = '';
 
   const width = container.clientWidth || 400;
   const height = container.clientHeight || 500;
 
-  // Datos de los 10 nodos (árbol)
+  // Datos de los 10 nodos
   const nodes = [
     { id: 'root', radius: 10, group: 'core' },
     { id: 'child1', radius: 8, group: 'edge' },
@@ -272,7 +250,7 @@ function initInteractiveNetwork() {
   const centerY = height / 2;
   const centerForce = d3.forceCenter(centerX, centerY);
 
-  // Simulación
+  // Simulacion
   const simulation = d3.forceSimulation(nodes)
     .force('link', d3.forceLink(links).id(d => d.id).distance(120))
     .force('charge', d3.forceManyBody().strength(-200))
@@ -285,7 +263,6 @@ function initInteractiveNetwork() {
   simulation.on('tick', () => {
     const time = Date.now() * 0.0005; // Velocidad de la órbita
     
-    // Desplazar lentamente todo el bloque en una órbita circular
     centerForce.x(centerX + Math.cos(time) * 30);
     centerForce.y(centerY + Math.sin(time) * 30);
 
@@ -306,7 +283,6 @@ function initInteractiveNetwork() {
       .attr('cy', d => d.y);
   });
 
-  // Calor constante garantizado para que nunca se quede quieto
   simulation.alphaTarget(0.1);
 
   // Funciones de arrastre
@@ -314,7 +290,6 @@ function initInteractiveNetwork() {
     if (!event.active) simulation.alphaTarget(0.3).restart();
     d.fx = d.x;
     d.fy = d.y;
-    // Opcional: ampliar un poco al agarrarlo
     d3.select(this).attr('r', d.radius * 1.5).attr('stroke', 'var(--color-primary)');
   }
 
@@ -336,7 +311,6 @@ Reveal.on("ready", () => {
   initInteractiveNetwork();
 });
 
-// Re-inicializar si cambia el tamaño de la ventana (opcional)
 window.addEventListener('resize', () => {
   // Solo re-inicializar si estamos en la primera slide para no gastar recursos
   if (Reveal.getIndices().h === 0) {
@@ -423,18 +397,13 @@ Reveal.on("ready", () => {
   const paneles = document.querySelectorAll('.tab-panels .tab-content');
 
   function redimensionarGraficoDe(panel) {
-    // Los gráficos son htmlwidgets de Plotly exportados desde R. Si el iframe
-    // terminó de cargar mientras su pestaña estaba oculta (display:none),
-    // Plotly calculó su tamaño con un contenedor de 0px y queda diminuto.
-    // Al activar la pestaña, forzamos un "resize" dentro del iframe para que
-    // Plotly recalcule su tamaño real.
     const iframe = panel.querySelector('iframe');
     if (iframe && iframe.contentWindow) {
       try {
         iframe.contentWindow.dispatchEvent(new Event('resize'));
       } catch (e) {
         // Si el iframe fuera de otro origen esto fallaría; en este caso
-        // son archivos locales del mismo sitio, así que no debería ocurrir.
+        // son archivos locales, no deberia ocurrir
       }
     }
   }
@@ -458,9 +427,6 @@ Reveal.on("ready", () => {
     if (targetId) activarTab(targetId, btn);
   });
 
-  // Si se entra directo a la slide de Resultados (o se vuelve a ella),
-  // reforzamos el resize del gráfico actualmente activo, por si cargó
-  // antes de que la slide estuviera realmente visible en pantalla.
   Reveal.on('slidechanged', () => {
     const panelActivo = document.querySelector('.tab-panels .tab-content.active');
     if (panelActivo) redimensionarGraficoDe(panelActivo);

@@ -31,10 +31,7 @@
 
   <!-- ======================================================================
        BOTÓN DE TEMA (claro / oscuro)
-       Fijo en la esquina superior izquierda. Ícono propio: tres nodos
-       conectados, en referencia a la red distribuida de PIMAD.
-       El color se resuelve solo con CSS (currentColor + variables), por eso
-       el JS únicamente necesita alternar el atributo data-theme.
+       Fijo en la esquina superior izquierda
   ====================================================================== */-->
   <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar entre modo claro y modo oscuro">
     <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -53,13 +50,10 @@
     </svg>
   </button>
 
-  <!-- Pie de página persistente (reemplaza el pie fijo de LaTeX/Beamer) -->
   <div class="deck-footer"><strong>PIMAD</strong> · CACIC 2026 · UNSL</div>
 
   <!--
-    Contador de diapositivas personalizado (arriba a la derecha).
-    Se completa dinámicamente desde js/main.js con el número anterior,
-    el actual y el siguiente. Empieza vacío a propósito.
+    Contador de diapositivas personalizado (arriba a la derecha)
   -->
   <div class="slide-counter" id="slide-counter" aria-hidden="true"></div>
 
@@ -393,7 +387,7 @@
     </div>
   </div>
 
-  <!-- Reveal.js (núcleo y plugins) -->
+  <!-- Reveal.js (nucleo y plugins) -->
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
   
@@ -403,7 +397,6 @@
   <!-- Lottie Web para animaciones JSON -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
 
-  <!-- Lógica propia: inicialización de Reveal.js + selector de tema -->
   <script src="js/main.js"></script>
 </body>
 </html>
