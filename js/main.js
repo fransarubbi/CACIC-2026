@@ -95,6 +95,9 @@ Reveal.initialize({
   // No centramos verticalmente: nuestras diapositivas están pensadas con
   // alineación superior/izquierda, más cercana a una lámina técnica.
   center: false,
+  
+  // Plugins (para Speaker View con la letra 's')
+  plugins: [ RevealNotes ]
 });
 
 
