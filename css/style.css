@@ -1106,7 +1106,7 @@ button:focus-visible {
   display: none;             /* oculto por defecto */
   width: 1000px;
   max-width: 92%;
-  height: 490px;
+  height: 480px;
   max-height: 100%;
 }
 
