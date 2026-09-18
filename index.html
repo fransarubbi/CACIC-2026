@@ -269,18 +269,36 @@
       <!-- ================================================================
            SLIDE 9 — RESULTADOS
       ================================================================= -->
-      <section>
+      <section style="display: flex; flex-direction: column; height: 100%;">
         <h2>Resultados</h2>
-        <ul class="brief-list">
-          <li class="fragment">
-            Durante X días de despliegue, el sistema procesó y persistió ininterrumpidamente más de 
-            X registros de telemetría, alcanzando un tamaño de almacenamiento de X MB.
-          </li>
-          <li class="fragment">
-            Los nodos Hub demostraron ser altamente estables, ya acumulan X dias de funcionamiento
-            ininterrumpido y siguen sumando.
-          </li>
-        </ul>
+        <div class="tab-container">
+          <div class="tab-buttons" id="results-tabs">
+            <div class="tab-active-indicator"></div>
+            <button class="tab-btn active" data-target="tab-temp">Temperatura</button>
+            <button class="tab-btn" data-target="tab-aire">Calidad del Aire</button>
+            <button class="tab-btn" data-target="tab-monitoreo">Monitoreo</button>
+            <button class="tab-btn" data-target="tab-ram">Edge RAM</button>
+            <button class="tab-btn" data-target="tab-hub">Hub Uptime</button>
+          </div>
+
+          <div class="tab-panels">
+            <div id="tab-temp" class="tab-content active">
+              <iframe src="results/grafico_temp_int_vs_ext_monitoreo.html" class="grafico-iframe" scrolling="no"></iframe>
+            </div>
+            <div id="tab-aire" class="tab-content">
+              <iframe src="results/grafico_calidad_aire_sala7.html" class="grafico-iframe" scrolling="no"></iframe>
+            </div>
+            <div id="tab-monitoreo" class="tab-content">
+              <iframe src="results/grafico_distribucion_monitoreo.html" class="grafico-iframe" scrolling="no"></iframe>
+            </div>
+            <div id="tab-ram" class="tab-content">
+              <iframe src="results/grafico_edge_ram.html" class="grafico-iframe" scrolling="no"></iframe>
+            </div>
+            <div id="tab-hub" class="tab-content">
+              <iframe src="results/grafico_uptime_hub.html" class="grafico-iframe" scrolling="no"></iframe>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- ================================================================
