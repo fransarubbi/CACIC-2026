@@ -419,8 +419,6 @@ Reveal.on("ready", () => {
   const botones = tabsContainer.querySelectorAll('.tab-btn');
   const paneles = document.querySelectorAll('.tab-panels .tab-content');
 
-  const indicador = tabsContainer.querySelector('.tab-active-indicator');
-
   function redimensionarGraficoDe(panel) {
     // Los gráficos son htmlwidgets de Plotly exportados desde R. Si el iframe
     // terminó de cargar mientras su pestaña estaba oculta (display:none),
@@ -438,12 +436,6 @@ Reveal.on("ready", () => {
     }
   }
 
-  function moverIndicador(btn) {
-    if (!indicador || !btn) return;
-    indicador.style.transform = `translateX(${btn.offsetLeft}px)`;
-    indicador.style.width = `${btn.offsetWidth}px`;
-  }
-
   function activarTab(targetId, btn) {
     paneles.forEach((panel) => {
       const esElActivo = panel.id === targetId;
@@ -454,8 +446,6 @@ Reveal.on("ready", () => {
     botones.forEach((b) => {
       b.classList.toggle('active', b === btn);
     });
-    
-    moverIndicador(btn);
   }
 
   tabsContainer.addEventListener('click', (e) => {
@@ -465,22 +455,11 @@ Reveal.on("ready", () => {
     if (targetId) activarTab(targetId, btn);
   });
 
-  // Inicializar posición del indicador
-  const botonActivo = tabsContainer.querySelector('.tab-btn.active');
-  if (botonActivo) {
-    // Timeout para asegurar que los elementos ya tengan dimensiones
-    setTimeout(() => moverIndicador(botonActivo), 50);
-  }
-
   // Si se entra directo a la slide de Resultados (o se vuelve a ella),
   // reforzamos el resize del gráfico actualmente activo, por si cargó
   // antes de que la slide estuviera realmente visible en pantalla.
   Reveal.on('slidechanged', () => {
     const panelActivo = document.querySelector('.tab-panels .tab-content.active');
     if (panelActivo) redimensionarGraficoDe(panelActivo);
-    
-    // Al entrar a la slide, acomodar indicador si se desfasó
-    const bActivo = tabsContainer.querySelector('.tab-btn.active');
-    if (bActivo) moverIndicador(bActivo);
   });
 })();
