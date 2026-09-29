@@ -173,17 +173,7 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 5 — ARQUITECTURA DEL DISPOSITIVO EDGE
-      ================================================================= -->
-      <section>
-        <h2>Arquitectura del dispositivo Edge</h2>
-        <div class="diagram-container">
-          <img src="diagrams/edge-arquitectura.svg" alt="Arquitectura del dispositivo Edge" class="full-diagram">
-        </div>
-      </section>
-
-      <!-- ================================================================
-           SLIDE 6 — PROTOCOLOS
+           SLIDE 5 — PROTOCOLOS
       ================================================================= -->
       <section>
         <h2>Protocolos de aplicación personalizados</h2>
@@ -192,70 +182,35 @@
             <div class="lottie-protocol" data-anim="animations/balanceo.json"></div>
             <div class="protocol-content">
               <span class="protocol-code">PCBPF</span>
-              <p>Protocolo de Coordinación y Balanceo Post-Fallo. Controla el envío de mensajes respaldados cuando el Edge inicia su operación y evita ráfagas de tráfico.</p>
+              <p>Protocolo de Coordinación y Balanceo Post-Fallo. Controla el tráfico de mensajes respaldados cuando se recupera la conexión entre la capa 1 y 2.</p>
             </div>
           </div>
           <div class="protocol-card fragment">
             <div class="lottie-protocol" data-anim="animations/vinculacion.json"></div>
             <div class="protocol-content">
               <span class="protocol-code">PV</span>
-              <p>Protocolo de Vinculación. Formaliza el descubrimiento y registro persistente entre dispositivos.</p>
+              <p>Protocolo de Vinculación. Formaliza el descubrimiento y registro persistente entre dispositivos de capa 1 y 2.</p>
             </div>
           </div>
           <div class="protocol-card fragment">
             <div class="lottie-protocol" data-anim="animations/sincronizacion.json"></div>
             <div class="protocol-content">
-              <span class="protocol-code">PSCH</span>
-              <p>Protocolo de Sincronización de Configuración. Mantiene la consistencia entre la configuración local y el servidor mediante confirmaciones.</p>
+              <span class="protocol-code">PSC</span>
+              <p>Protocolo de Sincronización de Configuración. Mantiene la consistencia sobre la configuración de los dispositivos de capa 1 con el servidor.</p>
             </div>
           </div>
           <div class="protocol-card fragment">
             <div class="lottie-protocol" data-anim="animations/protocolo_alertas.json"></div>
             <div class="protocol-content">
-              <span class="protocol-code">PRABS</span>
-              <p>Protocolo de Respaldo de Alertas. Permite a los Hubs saltear un nodo Edge caído y enviar alertas críticas directamente al servidor por HTTP.</p>
+              <span class="protocol-code">PBA</span>
+              <p>Protocolo de Bypass de Alertas. Permite a los dispositivos de capa 1, saltear un nodo de capa 2 caído y enviar alertas directamente al servidor por HTTP.</p>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ================================================================
-           SLIDE 7 — PCBPF
-      ================================================================= -->
-      <section>
-        <h2>Protocolo de Coordinación y Balanceo Post-Fallo</h2>
-        <div class="diagram-container">
-          <div class="r-stack" style="width: 100%; height: 100%;">
-            <img src="diagrams/uno.svg" class="full-diagram fragment fade-out" data-fragment-index="1" />
-            <img src="diagrams/dos.svg" class="full-diagram fragment current-visible" data-fragment-index="1" />
-            <img src="diagrams/tres.svg" class="full-diagram fragment current-visible" data-fragment-index="2" />
-            <img src="diagrams/cuatro.svg" class="full-diagram fragment current-visible" data-fragment-index="3" />
-            <img src="diagrams/cinco.svg" class="full-diagram fragment current-visible" data-fragment-index="4" />
-            <img src="diagrams/seis.svg" class="full-diagram fragment current-visible" data-fragment-index="5" />
-            <img src="diagrams/siete.svg" class="full-diagram fragment current-visible" data-fragment-index="6" />
-            <img src="diagrams/ocho.svg" class="full-diagram fragment current-visible" data-fragment-index="7" />
-            <img src="diagrams/nueve.svg" class="full-diagram fragment fade-in" data-fragment-index="8" />
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           SLIDE 8 — DESPLIEGUE
-      ================================================================= -->
-      <section>
-        <h2>Despliegue</h2>
-        <div class="deployment-layout">
-          <div class="deployment-half">
-            <iframe src="animations/planos.html" class="deployment-iframe" scrolling="no" frameborder="0"></iframe>
-          </div>
-          <div class="deployment-half">
-            <img src="diagrams/despliegue.svg" class="deployment-img" alt="Despliegue de red">
-          </div>
-        </div>
-      </section>
-
-      <!-- ================================================================
-           SLIDE 9 — RESULTADOS
+           SLIDE 6 — RESULTADOS
       ================================================================= -->
       <section style="display: flex; flex-direction: column; height: 100%;">
         <h2>Resultados</h2>
@@ -267,9 +222,6 @@
             <button class="tab-btn" data-target="tab-aire">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wind"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>
             </button>
-            <button class="tab-btn" data-target="tab-monitoreo">
-              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            </button>
             <button class="tab-btn" data-target="tab-ram">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cpu"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
             </button>
@@ -280,26 +232,23 @@
 
           <div class="tab-panels">
             <div id="tab-temp" class="tab-content active">
-              <iframe src="results/grafico_temp_int_vs_ext_monitoreo.html" class="grafico-iframe" scrolling="no"></iframe>
+              <iframe data-src="results/grafico_temp_int_vs_ext_monitoreo.html" class="grafico-iframe" scrolling="no"></iframe>
             </div>
             <div id="tab-aire" class="tab-content">
-              <iframe src="results/grafico_calidad_aire_sala7.html" class="grafico-iframe" scrolling="no"></iframe>
-            </div>
-            <div id="tab-monitoreo" class="tab-content">
-              <iframe src="results/grafico_distribucion_monitoreo.html" class="grafico-iframe" scrolling="no"></iframe>
+              <iframe data-src="results/grafico_calidad_aire_sala7.html" class="grafico-iframe" scrolling="no"></iframe>
             </div>
             <div id="tab-ram" class="tab-content">
-              <iframe src="results/grafico_edge_ram.html" class="grafico-iframe" scrolling="no"></iframe>
+              <iframe data-src="results/grafico_edge_ram.html" class="grafico-iframe" scrolling="no"></iframe>
             </div>
             <div id="tab-hub" class="tab-content">
-              <iframe src="results/grafico_uptime_hub.html" class="grafico-iframe" scrolling="no"></iframe>
+              <iframe data-src="results/grafico_uptime_hub.html" class="grafico-iframe" scrolling="no"></iframe>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ================================================================
-           SLIDE 10 — CONCLUSIONES Y PRÓXIMOS PASOS
+           SLIDE 7 — CONCLUSIONES Y PRÓXIMOS PASOS
       ================================================================= -->
       <section>
         <h2>Conclusiones y próximos pasos</h2>
@@ -311,7 +260,7 @@
           </li>
           <li class="fragment">
             La plataforma es <strong>altamente reconfigurable</strong> y puede transferirse a otros
-            dominios modificando principalmente la capa 1 (Hub).
+            dominios modificando principalmente la capa 1.
           </li>
           <li class="fragment">
             A pesar de que el hardware de sensado es <strong>entry-level,</strong> los datos 
@@ -324,7 +273,7 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 11 — PREGUNTAS Y DEBATE
+           SLIDE 8 — PREGUNTAS Y DEBATE
       ================================================================= -->
       <section class="cover-slide">
         <p class="cover-eyebrow">Preguntas y debate</p>
@@ -338,7 +287,7 @@
       </section>
 
       <!-- ================================================================
-           SLIDE 12 — BIBLIOGRAFÍA PRINCIPAL
+           SLIDE 9 — BIBLIOGRAFÍA PRINCIPAL
            data-count="exclude": esta diapositiva no forma parte del
            conteo "página X de Y" del contador de arriba a la derecha.
       ================================================================= -->

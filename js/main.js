@@ -396,15 +396,24 @@ Reveal.on("ready", () => {
   const botones = tabsContainer.querySelectorAll('.tab-btn');
   const paneles = document.querySelectorAll('.tab-panels .tab-content');
 
+  /**
+   * Carga el iframe del panel solo la primera vez que el panel es
+   * visible. Así Plotly mide bien los textos (leyenda, ejes, etc.).
+   */
+  function cargarGraficoDe(panel) {
+    const iframe = panel.querySelector('iframe[data-src]');
+    if (iframe) {
+      iframe.src = iframe.getAttribute('data-src');
+      iframe.removeAttribute('data-src');
+    }
+  }
+
   function redimensionarGraficoDe(panel) {
     const iframe = panel.querySelector('iframe');
     if (iframe && iframe.contentWindow) {
       try {
         iframe.contentWindow.dispatchEvent(new Event('resize'));
-      } catch (e) {
-        // Si el iframe fuera de otro origen esto fallaría; en este caso
-        // son archivos locales, no deberia ocurrir
-      }
+      } catch (e) {}
     }
   }
 
@@ -412,7 +421,10 @@ Reveal.on("ready", () => {
     paneles.forEach((panel) => {
       const esElActivo = panel.id === targetId;
       panel.classList.toggle('active', esElActivo);
-      if (esElActivo) redimensionarGraficoDe(panel);
+      if (esElActivo) {
+        cargarGraficoDe(panel);
+        redimensionarGraficoDe(panel);
+      }
     });
 
     botones.forEach((b) => {
@@ -427,8 +439,18 @@ Reveal.on("ready", () => {
     if (targetId) activarTab(targetId, btn);
   });
 
-  Reveal.on('slidechanged', () => {
+  // Carga el tab activo solo cuando la slide de resultados está visible
+  function alMostrarSlide() {
+    const slideActual = Reveal.getCurrentSlide();
+    if (!slideActual || !slideActual.contains(tabsContainer)) return;
+
     const panelActivo = document.querySelector('.tab-panels .tab-content.active');
-    if (panelActivo) redimensionarGraficoDe(panelActivo);
-  });
+    if (panelActivo) {
+      cargarGraficoDe(panelActivo);
+      redimensionarGraficoDe(panelActivo);
+    }
+  }
+
+  Reveal.on('ready', alMostrarSlide);        // por si se abre directo con #/8
+  Reveal.on('slidechanged', alMostrarSlide);
 })();
