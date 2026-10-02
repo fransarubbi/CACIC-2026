@@ -67,7 +67,7 @@ botonTema.addEventListener("click", alternarTema);
    2. INICIALIZACIÓN DE REVEAL.JS
    ======================================================================== */
 
-Reveal.initialize({
+const revealConfig = {
   // Dimensiones de referencia del "lienzo" de cada diapositiva
   width: 1280,
   height: 720,
@@ -93,7 +93,7 @@ Reveal.initialize({
   
   // Plugins (para Speaker View con la letra 's')
   plugins: [ RevealNotes ]
-});
+};
 
 
 /* ========================================================================
@@ -454,3 +454,10 @@ Reveal.on("ready", () => {
   Reveal.on('ready', alMostrarSlide);        // por si se abre directo con #/8
   Reveal.on('slidechanged', alMostrarSlide);
 })();
+
+/* ========================================================================
+   8. BOOTSTRAP FINAL
+   ======================================================================== */
+Reveal.initialize(revealConfig).then(() => {
+  console.log("Reveal.js inicializado.");
+});

@@ -65,7 +65,7 @@ html {
 }
 
 html,
-body,
+html, body,
 .reveal-viewport,
 .reveal {
   height: 100%;
@@ -1073,4 +1073,23 @@ button:focus-visible {
   border-radius: 10px;
   background: var(--color-surface);
   box-shadow: 0 4px 18px rgba(11, 20, 32, 0.12);
+}
+
+/* Corrección de color de fondo y gradiente para modo retrato en mobile */
+html, body, .reveal-viewport, .reveal, .slide-background {
+  background-color: var(--color-canvas) !important;
+}
+
+@media (orientation: portrait) {
+  .reveal {
+    background-image: 
+      radial-gradient(ellipse 250% 120% at -20% 50%, var(--color-canvas) 30%, transparent 65%),
+      radial-gradient(var(--bg-dot-color) 1.7px, transparent 1.7px) !important;
+  }
+}
+@media (orientation: portrait) {
+  .reveal {
+    background-size: 100% 100%, 20px 20px !important;
+    background-repeat: no-repeat, repeat !important;
+  }
 }
